@@ -1,8 +1,11 @@
+import { Card } from '@mui/material'
 import React from 'react'
 
 const Header = () => {
   return (
-    <div>Header</div>
+    <div>
+      <Card>K-VENT MANAGER</Card>
+    </div>
   )
 }
 
