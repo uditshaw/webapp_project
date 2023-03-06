@@ -20,7 +20,7 @@ const cardcontent = {
 const cardactions = {
   display: 'flex',
   backgroundColor: 'black',
-  width: '62vw'
+  width: '64vw'
 };
 const inputbase = {
   backgroundColor: '#ffffff',
@@ -30,7 +30,7 @@ const inputbase = {
   padding: '7px'
 };
 const button = {
-  margin: '10px 0px 10px 5px'
+  margin: '10px 5px'
 };
 
 const Banner = () => {
