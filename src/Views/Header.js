@@ -1,7 +1,7 @@
-import { Button, ButtonGroup, Card, CardActions, CardContent, IconButton, InputBase, TextField, Typography } from '@mui/material'
+import { Button, ButtonGroup, Card, CardActions, CardContent, IconButton, InputBase, Paper, TextField, Typography } from '@mui/material'
 import React from 'react'
 import Navbar from '../Components/Navbar';
-// import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from '@mui/icons-material/Search';
 // import MenuIcon from '@mui/icons-material/Menu';
 
 const card = {
@@ -22,11 +22,17 @@ const cardactions = {
   backgroundColor: 'black',
   width: '64vw'
 };
+const paper = {
+  display: 'flex',
+  backgroundColor: '#35383e',
+  borderRadius: '20px'
+};
 const inputbase = {
-  backgroundColor: '#ffffff',
-  borderRadius: '10px',
+  backgroundColor: 'inherit',
+  color: '#fff',
+  borderRadius: '20px',
   height: '40px',
-  width: '34vw',
+  width: '31vw',
   padding: '7px'
 };
 const button = {
@@ -40,12 +46,14 @@ const Banner = () => {
     <div>
         <Card sx={card}>
           <CardContent sx={cardcontent}>
-            {/* <IconButton><MenuIcon /></IconButton> */}
             <Typography variant='h6'>K-VENT MANAGER</Typography>
           </CardContent>
           <CardActions sx={cardactions}>
             <Navbar />
+            <Paper sx={paper}>
+            <IconButton><SearchIcon sx={{color: '#dcdcdc'}}/></IconButton>
             <InputBase sx={inputbase} placeholder="Search for events"  inputProps={{ 'aria-label': 'search event' }} />
+            </Paper>
           </CardActions>
               <Button variant='contained' sx={button}>Login</Button>
               <Button variant='contained' sx={button}>Sign Up</Button>
