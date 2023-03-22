@@ -1,3 +1,5 @@
+import { type } from "@testing-library/user-event/dist/type";
+import { useState } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import MediaCard from "./EventsCards";
@@ -20,14 +22,15 @@ const responsive = {
         items: 1
     }
 };
-function EventCarousel(props) {
-    const events = props.itemss.map((item) =>
-        <MediaCard items={item}></MediaCard>
+function PastEvent(props) {
+    const [event,setEvents]=useState([]);
+    let data=fetch("http://localhost:8000/api/v1/events/Past",{method:'GET',  headers: {"Content-Type": "application/json"}}).then((res)=>{return res.json()}).then((d)=>setEvents(d.data.Events));
+    const events = event.map((item) =>
+        <MediaCard items={item} data={event}></MediaCard>
     );
-    console.log(events)
     return (
         <Carousel responsive={responsive}>
             {events}
         </Carousel>);
 }
-export default EventCarousel;
+export default PastEvent;

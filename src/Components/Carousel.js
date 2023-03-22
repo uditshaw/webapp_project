@@ -19,7 +19,7 @@ function CarouselCard(props)
     function Item(props)
     {
         return(<Paper>
-            <img src={props.item.image} width="100%" height="500vh"></img>
+            <img src={props.item.image} width="100%" height="500vh" ></img>
         </Paper>)
     }
     export default CarouselCard;

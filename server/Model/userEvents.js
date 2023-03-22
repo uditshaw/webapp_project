@@ -3,13 +3,14 @@ const mongoose = require('mongoose');
 const userSchema= new mongoose.Schema({
     name:{
         type:String,
-        
     },
     description:{
         type:String,
     },
-    photo:String,
+    image:String,
+    location:String,
+    department:String,
     status:String,
 });
-const User = mongoose.model('User',userSchema);
-module.exports=User;
+const Event = mongoose.model('Event',userSchema);
+module.exports=Event;
