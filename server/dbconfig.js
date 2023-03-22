@@ -1,13 +1,13 @@
-const mongoose=require('mongoose')
+const mongoose = require("mongoose");
 exports.connect = async () => {
-    try {
-      await mongoose.connect("mongodb://localhost:27017/students");
-      console.log("Connected to mongoDB.");
-    } catch (error) {
-      throw error;
-    }
-  };
-  
-  mongoose.connection.on("disconnected", () => {
-    console.log("mongoDB disconnected!");
-  });
+  try {
+    await mongoose.connect("mongodb://127.0.0.1:27017/");
+    console.log("Connected to mongoDB.");
+  } catch (error) {
+    throw error;
+  }
+};
+
+mongoose.connection.on("disconnected", () => {
+  console.log("mongoDB disconnected!");
+});
