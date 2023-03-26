@@ -1,5 +1,6 @@
 const Event=require('./../Model/userEvents');
-var cors=require("cors")
+var cors=require("cors");
+const { mergeSlotProps } = require('@mui/base');
 exports.AllEvents=async(req,res)=>{
     try{
         const Events= await Event.find();
@@ -96,6 +97,37 @@ exports.getEventById= async(req,res)=>{
             status:"success",
             data:{Events}
         })
+    }
+    catch(err)
+    {
+        res.status(400).json({
+            status:"Failed"
+        })
+
+    }
+}
+
+// Get Event By Name(Search API)
+exports.getEventByName= async(req,res)=>{
+
+    const { name } = req.query;
+    
+    try{
+       
+        const Events= await Event.find({name:{ $regex: ".*"+name+".*", $options: 'i' }});
+
+        if(Events.length > 0) {
+            res.status(200).json({
+                status:"success",
+                data:{Events}
+            })
+        } else {
+            res.status(200).json({
+                status: "No results found ",
+                data:{Events}
+            })
+        }
+     
     }
     catch(err)
     {
