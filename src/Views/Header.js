@@ -116,7 +116,7 @@ const Header = () => {
                 <InputBase
                   sx={inputbase}
                   placeholder='Search for events'
-                  inputProps={{ 'aria-label': 'search event' }}
+                  inputProps={{ 'aria-label': 'search event' }} 
                 />
               </Paper>
               <Login></Login>

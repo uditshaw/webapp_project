@@ -23,9 +23,10 @@ const responsive = {
 }
 function AllEvents (props) {
   const [event, setEvents] = useState([])
-  let data = fetch('http://localhost:8000/api/v1/events', {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' }
+  let data = fetch(`http://localhost:8000/api/v1/events/`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:JSON.stringify({department:props.department,status:props.status})
   })
     .then(res => {
       return res.json()

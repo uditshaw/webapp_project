@@ -11,11 +11,22 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import FormControl from '@mui/material/FormControl'
 import { Grid, Box, Paper } from '@mui/material'
 import { styled } from '@mui/material/styles'
-export default function ControlledAccordions () {
+export default function ControlledAccordions (props) {
   const [expanded, setExpanded] = React.useState(false)
-
+  const [status,setStatus]=React.useState("");
+  const [Department,setDepartment]=React.useState("");
   const handleChange = panel => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false)
+  }
+  const handleFilter=(event)=>{
+    console.log(event.target.value);
+    props.filterStatus(event.target.value);
+    setStatus(event.target.value);
+  }
+  const handleFilterDepartment=(event)=>{
+    console.log(event.target.value);
+    props.filterDepartment(event.target.value);
+    setDepartment(event.target.value);
   }
   const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -51,13 +62,14 @@ export default function ControlledAccordions () {
               >
                 Status
               </Typography>
-              <Typography sx={{ color: 'text.secondary' }}>Ongoing</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>{status}</Typography>
             </AccordionSummary>
             <AccordionDetails>
               <FormControl>
                 <RadioGroup
                   aria-labelledby='demo-radio-buttons-group-label'
                   name='radio-buttons-group'
+                  onChange={handleFilter}
                 >
                   <FormControlLabel
                     value='Ongoing'
@@ -95,18 +107,20 @@ export default function ControlledAccordions () {
               >
                 Department
               </Typography>
-              <Typography sx={{ color: 'text.secondary' }}></Typography>
+              <Typography sx={{ marginLeft:"50px", flexShrink: 0, textAlign: 'right' }}>{Department}</Typography>
             </AccordionSummary>
             <AccordionDetails>
               <FormControl>
                 <RadioGroup
                   aria-labelledby='demo-radio-buttons-group-label'
                   name='radio-buttons-group'
+                onChange={handleFilterDepartment}
                 >
                   <FormControlLabel
                     value='CSE'
                     control={<Radio />}
                     label='Computer Science'
+
                   />
                   <FormControlLabel value='IT' control={<Radio />} label='IT' />
                   <FormControlLabel

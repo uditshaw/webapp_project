@@ -4,17 +4,28 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import getData from '../data/Data';
+import PlaceIcon from '@mui/icons-material/Place';
 const style = {
   position: 'absolute',
   top: '50%',
-  left: '50%',
+  left:'50%',
+  width:'50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
   bgcolor: 'background.paper',
-  border: '2px solid #000',
+  boxSizing:"border-box",
+  overflow:"hidden",
   boxShadow: 24,
+
   p: 4,
 };
+const h1style={
+  "font-size": "70px",
+  fontWeight: 600,
+  backgroundImage: "linear-gradient(to left,#517991, #9ba5ab)",
+  color: "transparent",
+  backgroundClip: "text",
+  "-webkit-background-clip": "text",
+}
 
 export default function EventModal(props) {
   const [open, setOpen] = React.useState(false);
@@ -42,12 +53,29 @@ export default function EventModal(props) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
+          <Typography id="modal-modal-title" variant="h6" component="h2" style={h1style}>
            {event[0].name} 
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          {event[0].status} 
+          <div style={{display:"flex",justifyContent:"flex-start"}}>
+            <div style={{width:'70%'}}>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }} >
+          <p style={{wordWrap: "break-word",lineHeight:"3"}}>{event[0].description} </p>
           </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }} style={{marginTop:"10vh"}}>
+          {event[0].department} 
+          </Typography>
+          </div>
+          <div style={{display:'flex',marginLeft:'60px',color:"#9aa6ad"}}>
+          <PlaceIcon></PlaceIcon>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+           {event[0].location} 
+          </Typography>
+   
+       
+          </div>
+          
+          </div>
+          <Button variant='contained' style={{marginLeft:"80%",marginTop:"5vh",height:"5vh",color:"white", background:"#af9bba"}} onClick={handleOpen}>Register</Button>
         </Box>
       </Modal>
     </div>
