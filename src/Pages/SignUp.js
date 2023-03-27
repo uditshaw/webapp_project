@@ -10,10 +10,10 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import EmailIcon from '@mui/icons-material/Email';
 import Link from "@mui/material/Link";
 import { red } from "@mui/material/colors";
-
+import CloseIcon from '@mui/icons-material/Close';
 import Divider from "@mui/material/Divider";
 import Chip from "@mui/material/Chip";
-
+import Alert1 from '../Components/Alert1';
 const paperStyle = {padding:20,height:'80vh',width:'60vh',margin:"20px auto"}
     const avatarStyle={background:"#1bbd7e"}
     const style1={marginTop:'10px'}
@@ -33,7 +33,13 @@ const style = {
 export default function SignUp(props) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {setOpen(false)
+  setName("")
+setEmail("")
+setPassword("")
+setPasswordConfirm("")
+setRegMsg("")
+setRespStatus("")}
 
   // Form Data States
   const [name, setName] = React.useState("");
@@ -46,6 +52,8 @@ export default function SignUp(props) {
 
 
   const handleSubmit = async(e) => {
+    console.log("ins")
+    var d;
     let data = await fetch("http://localhost:8000/api/v1/users/register",{
       method: "POST",
       headers:{
@@ -61,9 +69,16 @@ export default function SignUp(props) {
      .then(res => {return res.json();})
      .then(user => {
         setRegMsg(user.message);
-        setRespStatus(user.status);
-        if(respStatus === "success") {setOpen(false);}
+        d=user.status;
+        
+      
+        
       });
+      console.log(d)
+      setRespStatus(d);
+      if(d === "success") {
+        alert("Congratulations you signed in successfully!! ")
+        handleClose()}
   }
 
   return (
@@ -77,6 +92,7 @@ export default function SignUp(props) {
       >
          <Grid >
             <Paper elevation={10} style={paperStyle} > 
+            <Button onClick={handleClose} style={{color:"black"}}><CloseIcon></CloseIcon></Button> 
             <Grid align="center">
             <Avatar style={avatarStyle}><AccountBoxIcon></AccountBoxIcon></Avatar>
             <Typography>  <h2 style={{margin:'20px'}} >SignUp</h2></Typography>
@@ -125,9 +141,7 @@ export default function SignUp(props) {
           <Button onClick={handleSubmit} variant="contained" color="success" fullWidth>
             Sign In
           </Button>
-          <Typography style={{marginTop:'15px'}}>
-            <Link href="/Login" style={style1}>Already have a account? Login</Link>
-          </Typography>
+          
           </Paper>
          </Grid>
       </Modal>

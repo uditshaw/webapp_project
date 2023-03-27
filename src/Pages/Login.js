@@ -10,7 +10,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import EmailIcon from '@mui/icons-material/Email';
 import Link from "@mui/material/Link";
 import { red } from "@mui/material/colors";
-
+import CloseIcon from '@mui/icons-material/Close';
 import Divider from "@mui/material/Divider";
 import Chip from "@mui/material/Chip";
 const paperStyle = {padding:20,height:'80vh',width:'60vh',margin:"20px auto"}
@@ -45,6 +45,7 @@ export default function Login(props) {
       >
          <Grid >
             <Paper elevation={10} style={paperStyle} > 
+            <Button onClick={handleClose} style={{color:"black"}}><CloseIcon></CloseIcon></Button> 
             <Grid align="center">
             <Avatar style={avatarStyle}><AccountBoxIcon></AccountBoxIcon></Avatar>
             <Typography>  <h2 style={{margin:'20px'}} >Sign In</h2></Typography>
@@ -73,10 +74,7 @@ SignIn With Gmail
 <Link href="#" style={style1}>Forget Password?</Link>
        
 </Typography>
-<Typography style={{marginTop:'15px'}}>
 
-          <Link href="/Signup" style={style1}>SignUp/Register</Link>
-</Typography>
          
           
             </Paper>
