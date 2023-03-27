@@ -52,6 +52,22 @@ exports.checkEmail= async(req,res,next) => {
     next();
    
 }
+exports.checkPasswords = (req,res,next) => {
+    if (!req.body.password) {
+        console.log("Password not entered");
+        return res.status(400).json({
+            "status": "failed",
+            "message": "Please enter a password"
+        })
+    } else if (!req.body.passwordConfirm) {
+        console.log("Confirmed Password not entered");
+        return res.status(400).json({
+            "status": "failed",
+            "message": "Please confirm your password"
+        })
+    }
+    next();
+}
 exports.comparePasswords = (req,res,next) => {
     const pass = req.body.password;
     const passConf = req.body.passwordConfirm;

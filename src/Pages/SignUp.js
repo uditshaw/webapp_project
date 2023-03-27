@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import {Grid,Paper,Avatar, TextField, Checkbox, Alert} from "@mui/material"
+import {Grid,Paper,Avatar, TextField, Checkbox, Alert, Snackbar} from "@mui/material"
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import FormControlLabel from "@mui/material/FormControlLabel";
 import EmailIcon from '@mui/icons-material/Email';
@@ -44,6 +44,10 @@ export default function SignUp(props) {
   const [respStatus, setRespStatus] = React.useState("");
   const [regMsg, setRegMsg] = React.useState("");
 
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  const handleSnackOpen = () => setOpenSnackbar(true);
+  const handleSnackClose = () => setOpenSnackbar(false);
+
 
   const handleSubmit = async(e) => {
     let data = await fetch("http://localhost:8000/api/v1/users/register",{
@@ -62,7 +66,10 @@ export default function SignUp(props) {
      .then(user => {
         setRegMsg(user.message);
         setRespStatus(user.status);
-        if(respStatus === "success") {setOpen(false);}
+        if(user.status === "success") {
+          handleSnackOpen();
+          handleClose();
+        }
       });
   }
 
@@ -131,6 +138,9 @@ export default function SignUp(props) {
           </Paper>
          </Grid>
       </Modal>
+      <Snackbar open={openSnackbar} onClose={handleSnackClose} autoHideDuration={2000}>
+        <Alert variant='filled' severity="success">{regMsg}</Alert>
+      </Snackbar>
     </div>
   );
 }
