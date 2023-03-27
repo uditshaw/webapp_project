@@ -9,7 +9,9 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { useState } from 'react';
 import { Button } from '@mui/material';
-export default function TableData() {
+import Delete from './Components/Delete';
+import Edit from './Components/Edit';
+export default function EventTable() {
     const [rows, setRows] = useState([])
   let data = fetch(`http://localhost:8000/api/v1/events/`, {
     method: 'POST',
@@ -29,9 +31,10 @@ export default function TableData() {
   };
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
+    setRowsPerPage(+event.target);
     setPage(0);
   };
+ 
   const[value,setValue]=React.useState(0);
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -50,15 +53,14 @@ export default function TableData() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row._id}>
                    <TableCell>{row.name}</TableCell>
                    <TableCell>{row.status}</TableCell>
-                   <TableCell><Button>Edit</Button></TableCell>
-                   <TableCell><Button>Delete</Button></TableCell>
+                   <TableCell><Edit data={row}></Edit></TableCell>
+                   <TableCell><Delete id={row._id}></Delete></TableCell>
                    <TableCell><Button>Show Participants</Button></TableCell>
                    <TableCell><Button>Show Results</Button></TableCell>
                   </TableRow>

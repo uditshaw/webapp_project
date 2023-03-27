@@ -5,17 +5,19 @@ import Footer from './Views/Footer';
 import Header from './Views/Header';
 import { Route,Routes } from 'react-router-dom';
 import './App.css'
+import Main from './Admin/Main';
 function App() {
   return (
-    <div style={{padding:0,margin:0,boxSizing:"border-box"}}>
-      <Header />
-      <Footer></Footer>
-      <Routes>
-            <Route path='/Login' element={<Login/>}></Route>
-            <Route path='/Signup' element={<SignUp/>}></Route>
+    // <div style={{padding:0,margin:0,boxSizing:"border-box"}}>
+    //   <Header />
+    //   <Footer></Footer>
+    //   <Routes>
+    //         <Route path='/Login' element={<Login/>}></Route>
+    //         <Route path='/Signup' element={<SignUp/>}></Route>
 
-            </Routes>
-    </div>
+    //         </Routes>
+    // </div>
+    <Main></Main>
   );
 }
 

@@ -9,17 +9,17 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { useState } from 'react';
 import { Button } from '@mui/material';
-export default function TableData() {
+export default function UserTable() {
     const [rows, setRows] = useState([])
-  let data = fetch(`http://localhost:8000/api/v1/events/`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body:JSON.stringify({department:" ",status:" "})
+  let data = fetch(`http://localhost:8000/api/v1/userData`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' }
   })
     .then(res => {
       return res.json()
     })
-    .then(d => setRows(d.data.Events))
+    .then(d => 
+        setRows(d.data.User))
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -40,27 +40,21 @@ export default function TableData() {
           <TableHead>
             <TableRow>
                 <TableCell>Name</TableCell>
-                <TableCell>Status</TableCell>
+                <TableCell>Email ID</TableCell>
                 <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
+             
              
 
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row._id}>
                    <TableCell>{row.name}</TableCell>
-                   <TableCell>{row.status}</TableCell>
-                   <TableCell><Button>Edit</Button></TableCell>
-                   <TableCell><Button>Delete</Button></TableCell>
-                   <TableCell><Button>Show Participants</Button></TableCell>
-                   <TableCell><Button>Show Results</Button></TableCell>
+                   <TableCell>{row.email}</TableCell>
+                   <TableCell><Button>Remove</Button></TableCell>
                   </TableRow>
                 );
               })}

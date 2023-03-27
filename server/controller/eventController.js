@@ -3,12 +3,6 @@ var cors=require("cors")
 exports.AllEvents=async(req,res)=>{
     try{
         const Events= await Event.find();
-        // res.header('Access-Control-Allow-Origin', '*');
-        // res.header(
-        //   'Access-Control-Allow-Headers',
-        //   'Origin, X-Requested-With,Content-Type,Accept,Authorization'
-        // );
-        // res.header('Access-Control-Allow-Methods', 'GET,POST,PATCH,PUT');
         res.status(200).json({
             status:"success",
             data:{Events}
@@ -108,7 +102,7 @@ exports.getEventById= async(req,res)=>{
     }
 }
 exports.getEventByFilter= async(req,res)=>{
-    console.log(req.body.status)
+   
     try{
     
         var Events;
@@ -160,4 +154,34 @@ exports.OngoingEvent= async(req,res)=>{
         })
 
     }
+}
+exports.deleteEvent= async(req,res)=>{
+  
+    try{
+        const Events= await Event.deleteOne({_id:req.body.id});
+        
+        res.status(200).json({
+            status:"success",
+            data:{Events}
+        })
+    }
+    catch(err)
+    {
+        res.status(400).json({
+            status:"Failed"
+        })
+
+    }
+}
+
+exports.Editvent= async(req,res)=>{
+
+    try {
+        const savedEvent = await Event.updateOne(req.body.query,req.body.param);
+        
+        console.log(req.body);
+        res.status(200).json(savedEvent);
+      } catch (err) {
+        
+      }
 }
