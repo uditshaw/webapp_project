@@ -115,7 +115,6 @@ exports.getEventByName= async(req,res)=>{
     try{
        
         const Events= await Event.find({name:{ $regex: ".*"+name+".*", $options: 'i' }});
-
         if(Events.length > 0) {
             res.status(200).json({
                 status:"success",
