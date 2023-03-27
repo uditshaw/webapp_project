@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import {Grid,Paper,Avatar, TextField, Checkbox, Alert} from "@mui/material"
+import {Grid,Paper,Avatar, TextField, Checkbox, Alert, Snackbar} from "@mui/material"
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import FormControlLabel from "@mui/material/FormControlLabel";
 import EmailIcon from '@mui/icons-material/Email';
@@ -50,6 +50,10 @@ setRespStatus("")}
   const [respStatus, setRespStatus] = React.useState("");
   const [regMsg, setRegMsg] = React.useState("");
 
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  const handleSnackOpen = () => setOpenSnackbar(true);
+  const handleSnackClose = () => setOpenSnackbar(false);
+
 
   const handleSubmit = async(e) => {
     console.log("ins")
@@ -69,10 +73,8 @@ setRespStatus("")}
      .then(res => {return res.json();})
      .then(user => {
         setRegMsg(user.message);
-        d=user.status;
-        
-      
-        
+        setRespStatus(user.status);
+        if(respStatus === "success") {setOpen(false);}
       });
       console.log(d)
       setRespStatus(d);
@@ -145,6 +147,9 @@ setRespStatus("")}
           </Paper>
          </Grid>
       </Modal>
+      <Snackbar open={openSnackbar} onClose={handleSnackClose} autoHideDuration={2000}>
+        <Alert variant='filled' severity="success">{regMsg}</Alert>
+      </Snackbar>
     </div>
   );
 }
