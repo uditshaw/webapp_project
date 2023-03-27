@@ -46,6 +46,7 @@ export default function ControlledAccordions (props) {
             Filters
           </h2>
         </Grid>
+      
         <Grid item xs={8}>
           <Accordion
             expanded={expanded === 'panel1'}

@@ -1,7 +1,7 @@
 const mongoose=require('mongoose')
 exports.connect = async () => {
     try {
-      await mongoose.connect("mongodb://localhost:27017/student");
+      await mongoose.connect("mongodb://localhost:27017/students");
       console.log("Connected to mongoDB.");
     } catch (error) {
       throw error;

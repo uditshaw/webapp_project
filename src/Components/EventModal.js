@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import getData from '../data/Data';
 import PlaceIcon from '@mui/icons-material/Place';
+import RegisterConfirm from './RegisterConfirm';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -30,22 +31,22 @@ const h1style={
 export default function EventModal(props) {
   const [open, setOpen] = React.useState(false);
   const [event,setEvents]=React.useState([{name:""}])
+  const [registerDisabled,setDisabled]=React.useState(true);
+
   const handleOpen =async () => 
   {
     let k={}
     let data=await fetch("http://localhost:8000/api/v1/events/"+props.id,{method:'GET',  headers: {"Content-Type": "application/json"}}).then((res)=>{return res.json()}).then((d)=>k=d)
+  
     setOpen(true);
-   
     setEvents(k.data.Events)
     }
-  
-
   const handleClose = () => setOpen(false);
 
 
   return (
     <div>
-      <Button onClick={handleOpen}>Know More</Button>
+      <Button onClick={handleOpen} >Know More</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -75,7 +76,7 @@ export default function EventModal(props) {
           </div>
           
           </div>
-          <Button variant='contained' style={{marginLeft:"80%",marginTop:"5vh",height:"5vh",color:"white", background:"#af9bba"}} onClick={handleOpen}>Register</Button>
+       <RegisterConfirm status={event[0].status}></RegisterConfirm>
         </Box>
       </Modal>
     </div>
