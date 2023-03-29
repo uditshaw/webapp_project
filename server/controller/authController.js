@@ -1,4 +1,8 @@
 const User=require('./../Model/userModel');
+const UserOtpVerification = require("./../Model/userOtpVerification");
+
+const nodemailer = require("nodemailer");
+const bcrypt = require("bcrypt");
 
 exports.AllUsers = async (req,res,next) => {
     try {
@@ -81,17 +85,122 @@ exports.comparePasswords = (req,res,next) => {
     }
     next();
 }
+let transporter = nodemailer.createTransport({
+    host: "smtp.ethereal.email",
+    port: 587,
+    auth: {
+        user: 'april.collins@ethereal.email',
+        pass: 'Cqvb8YSa44Pf35a2J2'
+    }
+})
+exports.sendOtpVerificationEmail = async (req, res) => {
+
+    const { email } = req.body;
+    try {
+        const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
+        console.log(otp);
+        const mailOptions = {
+            from: '"April Collins" <april.collins@ethereal.email>',
+            to: email,
+            subject: "Verify Your Email",
+            html: `<p>Your OTP for email verification : <b>${otp}</b><br />.<b>THIS OTP EXPIRES IN 2 MINUTES.</b></p>`
+        }
+
+        const saltRounds = 10;
+        const hashedOTP = await bcrypt.hash(otp, saltRounds);
+        const newOtpVerification = await new UserOtpVerification({
+            email: email,
+            otp: hashedOTP,
+            createdAt: Date.now(),
+            expiresAt: Date.now() + 120000
+        });
+
+        await newOtpVerification.save();
+        await transporter.sendMail(mailOptions);
+        res.status(200).json({
+           status: "pending",
+           message: "Verification OTP sent to your email",
+           data: {
+            name: req.body.name,
+            email: email,
+            password: req.body.password,
+            passwordConfirm: req.body.passwordConfirm
+           },
+        });
+    } catch (err) {
+        res.status(400).json({
+            status: "failed",
+            message: err.message,
+            email: email
+        });
+    }
+}
+exports.otpVerification = async (req, res, next) => {
+    try {
+        let { otp } = req.body;
+        console.log("Inside otpVerification" + otp);
+        if (!otp) {
+            console.log("Empty OTP Details");
+            return res.status(400).json({
+                "status": "failed",
+                "message": "Empty OTP details are not allowed"
+            })
+        } else {
+            const UserOtpVerificationRecords = await UserOtpVerification.find({
+                email,
+            });
+            if(UserOtpVerificationRecords.length <= 0) {
+                return res.status(400).json({
+                    "status": "failed",
+                    "message": "Account record doesn't exist"
+                })
+            } else {
+                const {expiresAt} = UserOtpVerificationRecords[0];
+                const hashedOTP = UserOtpVerificationRecords[0].otp;
+
+                if(expiresAt < Date.now()) {
+                    await UserOtpVerification.deleteMany({email});
+                    return res.status(400).json({
+                        "status": "failed",
+                        "message": "OTP has expired"
+                    })
+                } else {
+                    const validOtp = await bcrypt.compare(otp, hashedOTP);
+                    if(!validOtp) {
+                        return res.status(400).json({
+                            "status": "failed",
+                            "message": "Invalid OTP. Please check your inbox."
+                        })
+                    } else {
+                        // await User.updateOne({_id: userId});
+                        await UserOtpVerification.deleteMany({email});
+                        res.status(200).json({
+                            "status": "success",
+                            "message": "User Registered Successfully",
+                            "data": req.body.data,
+                        })
+                        next();
+                    }
+                }
+            }
+        }
+    } catch (err) {
+        return res.status(400).json({
+            "status": "failed",
+            "message": err.message
+        })
+    }
+}
+
 exports.register= async(req,res)=>{
 
-    const  newUser=await User.create(req.body);
+    const  newUser=await User.create(req.body.data);
     try {
         const savedUser = await newUser.save();
-        res.status(200).json({
-            "status":"success",
-            "message": "User Registration Successful",
-            savedUser
-        });
       } catch (err) {
-        
+        res.status(400).json({
+            "status": "failed",
+            "message": "OTP verification failed due to server error"
+        })
       }
 }
