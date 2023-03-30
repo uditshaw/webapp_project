@@ -1,5 +1,8 @@
 const User = require("./../Model/userModel");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
+const SECRET_KEY = "THISISTHEWEBAPPPROJECTFOREIGHTHSEMESTER";
 
 exports.AllUsers = async (req, res, next) => {
   try {
@@ -12,32 +15,6 @@ exports.AllUsers = async (req, res, next) => {
     res.status(400).json({
       status: "Failed",
     });
-  }
-};
-
-exports.login = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-      return res
-        .status(400)
-        .json({ error: "Email or Password fields cannot be empty" });
-    }
-
-    const userLogin = await User.findOne({ email: email });
-    const isPasswordMatch = await bcrypt.compareSync(
-      password,
-      userLogin.password
-    );
-
-    if (userLogin && isPasswordMatch) {
-      res.status(200).json({ message: "User signed in successfully" });
-    } else {
-      return res.status(400).json({ error: "Invalid Credentials" });
-    }
-  } catch (error) {
-    console.log(error);
   }
 };
 
@@ -63,6 +40,37 @@ exports.isKiitEmail = async (req, res, next) => {
   //   });
   // }
   next();
+};
+
+const createJWTToken = async () => {};
+
+exports.login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ error: "Email or Password fields cannot be empty" });
+    }
+
+    const userLogin = await User.findOne({ email: email });
+    const isPasswordMatch = await bcrypt.compareSync(
+      password,
+      userLogin.password
+    );
+
+    if (userLogin && isPasswordMatch) {
+      const token = await userLogin.generateAuthToken();
+
+      console.log("Token = ", token);
+      res.status(200).json({ message: "User signed in successfully" });
+    } else {
+      return res.status(400).json({ error: "Invalid Credentials" });
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 exports.newRegister = async (req, res) => {
