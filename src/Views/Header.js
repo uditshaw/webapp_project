@@ -1,20 +1,16 @@
 import React from 'react'
 import {
   AppBar,
-  Button,
   Tab,
   Tabs,
   Toolbar,
   Typography,
   useMediaQuery,
   useTheme,
-  InputBase,
   Paper,
-  IconButton,
-  Box
+  Box,
 } from '@mui/material'
 import { useState } from 'react'
-import SearchIcon from '@mui/icons-material/Search'
 import DrawerComp from '../Components/DrawerComp'
 import PropTypes from 'prop-types'
 import About from '../Components/About'
@@ -22,23 +18,12 @@ import Home from '../Components/Home'
 import EventsV2 from '../Components/EventsV2'
 import Login from '../Pages/Login'
 import SignUp from '../Pages/SignUp'
+import Searchbar from '../Components/Searchbar'
 
-const card = {
+const appbar = {
   backgroundColor: '#38342b'
 }
-const paper = {
-  display: 'flex',
-  backgroundColor: '#35383e',
-  borderRadius: '20px'
-}
-const inputbase = {
-  backgroundColor: 'inherit',
-  color: '#fff',
-  borderRadius: '20px',
-  height: '40px',
-  width: '31vw',
-  padding: '7px'
-}
+
 
 const Pages = ['Home', 'Events', 'About US']
 function TabPanel (props) {
@@ -81,10 +66,11 @@ const Header = () => {
     setValue(newValue)
   }
 
+
   const isMatch = useMediaQuery(theme.breakpoints.down('md'))
   return (
     <>
-      <AppBar sx={card}>
+      <AppBar sx={appbar}>
         <Toolbar>
           {isMatch ? (
             <>
@@ -109,16 +95,10 @@ const Header = () => {
                   ></Tab>
                 ))}
               </Tabs>
-              <Paper sx={paper} style={{ marginLeft: '5vw' }}>
-                <IconButton>
-                  <SearchIcon sx={{ color: '#dcdcdc' }} />
-                </IconButton>
-                <InputBase
-                  sx={inputbase}
-                  placeholder='Search for events'
-                  inputProps={{ 'aria-label': 'search event' }}
-                />
-              </Paper>
+
+              {/* SEARCH BAR IMPLEMENTATION */}
+              <Searchbar />
+              
               <Login></Login>
               <SignUp></SignUp>
             </div>
