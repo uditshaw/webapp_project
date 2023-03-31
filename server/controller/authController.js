@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 
 exports.AllUsers = async (req, res, next) => {
   try {
+    console.log("From inside all users");
     const User1 = await User.find({ email: req.body.email });
     res.status(200).json({
       status: "success",
@@ -41,6 +42,8 @@ exports.isKiitEmail = async (req, res, next) => {
 
 exports.login = async (req, res) => {
   try {
+    console.log("From inside Login");
+
     const { email, password } = req.body;
 
     if (!email || !password) {
