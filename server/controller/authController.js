@@ -1,8 +1,5 @@
 const User = require("./../Model/userModel");
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-
-const SECRET_KEY = "THISISTHEWEBAPPPROJECTFOREIGHTHSEMESTER";
 
 exports.AllUsers = async (req, res, next) => {
   try {
@@ -42,8 +39,6 @@ exports.isKiitEmail = async (req, res, next) => {
   next();
 };
 
-const createJWTToken = async () => {};
-
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -64,6 +59,12 @@ exports.login = async (req, res) => {
       const token = await userLogin.generateAuthToken();
 
       console.log("Token = ", token);
+
+      res.cookie("jwtoken", token, {
+        expires: new Date(Date.now() + 86400000), // 86400000 milliseconds = 1 Day
+        httpOnly: true,
+      });
+
       res.status(200).json({ message: "User signed in successfully" });
     } else {
       return res.status(400).json({ error: "Invalid Credentials" });
