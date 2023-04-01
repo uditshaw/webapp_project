@@ -86,6 +86,7 @@ export default function SignUp(props) {
       .then((user) => {
         setRegMsg(user.message);
         setRespStatus(user.status);
+        console.log(user.status)
         if (user.status === "success") {
           handleSnackOpen();
           handleClose();

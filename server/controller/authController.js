@@ -17,14 +17,14 @@ exports.AllUsers = async (req, res, next) => {
 };
 
 exports.isKiitEmail = async (req, res, next) => {
-  console.log("Inside isEmail");
+  
   const regex = new RegExp("^[a-zA-Z0-9_.+-]+@kiit.ac.in");
   email = req.body.email;
   const check = email.match(regex);
   // const User1 = await User.findOne({ email: email });
 
   if (!check) {
-    console.log("inside");
+
     return res.status(400).json({
       status: "failed",
       message: "Please use a valid KIIT email id",
@@ -42,7 +42,7 @@ exports.isKiitEmail = async (req, res, next) => {
 
 exports.login = async (req, res) => {
   try {
-    console.log("From inside Login");
+
 
     const { email, password } = req.body;
 
@@ -61,7 +61,7 @@ exports.login = async (req, res) => {
     if (userLogin && isPasswordMatch) {
       const token = await userLogin.generateAuthToken();
 
-      console.log("Token = ", token);
+      
 
       res.cookie("jwtoken", token, {
         expires: new Date(Date.now() + 86400000), // 86400000 milliseconds = 1 Day
@@ -73,36 +73,38 @@ exports.login = async (req, res) => {
       return res.status(400).json({ error: "Invalid Credentials" });
     }
   } catch (error) {
-    console.log(error);
+
   }
 };
 
 exports.newRegister = async (req, res) => {
-  console.log("Inside New Register");
+
   const { name, email, password, passwordConfirm } = req.body;
 
   if (!name || !email || !password || !passwordConfirm) {
+
     return res
-      .status(422)
-      .json({ error: "Please enter all the required fields" });
+      .status(400)
+      .json({ status:"failed",
+      message: "Please enter all the required fields" });
   }
 
   try {
     const userExist = await User.findOne({ email: email });
 
     if (userExist) {
-      return res.status(422).json({ error: "Email already exists" });
+      return res.status(400).json({ status:"failed",message: "Email already exists" });
     } else if (password !== passwordConfirm) {
       return res
-        .status(422)
-        .json({ error: "Password and confirm password not same" });
+        .status(400)
+        .json({ status:"failed",message: "Password and confirm password not same" });
     } else {
       const user = new User({ email, password, passwordConfirm, name });
       await user.save();
-      res.status(201).json({ message: "User registered successfully" });
+      res.status(201).json({status:"success", message: "User registered successfully" });
     }
   } catch (error) {
-    console.log(error);
+    
   }
 };
 
