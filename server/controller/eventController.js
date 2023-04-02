@@ -35,7 +35,6 @@ exports.AddEvent = async (req, res) => {
 exports.UpcomingEvent = async (req, res) => {
   try {
     // console.log("Inside Upcoming Event");
-    console.log();
     const Events = await Event.find({ status: "Upcoming" });
     res.status(200).json({
       status: "success",
@@ -50,7 +49,7 @@ exports.UpcomingEvent = async (req, res) => {
 exports.OngoingEvent = async (req, res) => {
   try {
     // console.log("Inside Outgoing Event");
-    console.log();
+
     const Events = await Event.find({ status: "Ongoing" });
     res.status(200).json({
       status: "success",
@@ -64,8 +63,6 @@ exports.OngoingEvent = async (req, res) => {
 };
 exports.PastEvent = async (req, res) => {
   try {
-    // console.log("Inside Past Event");
-    console.log();
     const Events = await Event.find({ status: "Past" });
     res.status(200).json({
       status: "success",
