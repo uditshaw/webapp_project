@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
+import Cookies from "js-cookie";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
@@ -47,12 +48,16 @@ export default function Login(props) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+   
       },
+      credentials: 'include',
+  
       body: JSON.stringify({
         email,
         password,
       }),
     });
+    console.log(res.headers.Cookies);
     const data = res.json();
 
     if (res.status === 400 || !data) {

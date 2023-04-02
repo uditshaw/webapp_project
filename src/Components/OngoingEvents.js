@@ -1,5 +1,5 @@
 // import { type } from "@testing-library/user-event/dist/type";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import MediaCard from "./EventsCards";
@@ -23,7 +23,9 @@ const responsive = {
   },
 };
 function OngoingEvent(props) {
+
   const [event, setEvents] = useState([]);
+  useEffect(()=>{
   let data = fetch("http://localhost:8000/api/v1/events/Ongoing", {
     method: "GET",
     headers: { "Content-Type": "application/json" },
@@ -32,6 +34,7 @@ function OngoingEvent(props) {
       return res.json();
     })
     .then((d) => setEvents(d.data.Events));
+  },[])
   const events = event.map((item) => (
     <MediaCard items={item} data={event}></MediaCard>
   ));

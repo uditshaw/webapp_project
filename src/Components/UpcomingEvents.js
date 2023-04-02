@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import MediaCard from "./EventsCards";
@@ -23,7 +23,9 @@ const responsive = {
 };
 function UpcomingEvent(props) {
     const [event,setEvents]=useState([]);
-    let data=fetch("http://localhost:8000/api/v1/events/Upcoming",{method:'GET',  headers: {"Content-Type": "application/json"}}).then((res)=>{return res.json()}).then((d)=>setEvents(d.data.Events));
+    useEffect(()=>{
+  fetch("http://localhost:8000/api/v1/events/Upcoming",{method:'GET',  headers: {"Content-Type": "application/json"}}).then((res)=>{return res.json()}).then((d)=>setEvents(d.data.Events));
+    },[])
     const events = event.map((item) =>
         <MediaCard items={item} data={event}></MediaCard>
     );

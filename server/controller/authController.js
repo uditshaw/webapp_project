@@ -1,6 +1,7 @@
 const User = require("./../Model/userModel");
 const bcrypt = require("bcryptjs");
-
+const jwt=require('jsonwebtoken');
+const cookieParser = require('cookie-parser')
 exports.AllUsers = async (req, res, next) => {
   try {
     console.log("From inside all users");
@@ -57,16 +58,17 @@ exports.login = async (req, res) => {
       password,
       userLogin.password
     );
-
     if (userLogin && isPasswordMatch) {
       const token = await userLogin.generateAuthToken();
 
-      
+      res.header("Access-Control-Allow-Credentials",true);
 
       res.cookie("jwtoken", token, {
         expires: new Date(Date.now() + 86400000), // 86400000 milliseconds = 1 Day
         httpOnly: true,
       });
+      
+console.log(res.cookie.jwtoken)
 
       res.status(200).json({ message: "User signed in successfully" });
     } else {
