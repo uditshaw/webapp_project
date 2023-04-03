@@ -11,6 +11,9 @@ import { useState } from 'react';
 import { Button } from '@mui/material';
 import Delete from './Components/Delete';
 import Edit from './Components/Edit';
+import Add from './Components/Add';
+import EditStatus from './Components/EditStatus';
+
 export default function EventTable() {
     const [rows, setRows] = useState([])
   let data = fetch(`http://localhost:8000/api/v1/events/`, {
@@ -38,8 +41,11 @@ export default function EventTable() {
   const[value,setValue]=React.useState(0);
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+<Add></Add>
       <TableContainer sx={{ maxHeight: 440 }}>
+      
         <Table stickyHeader aria-label="sticky table">
+
           <TableHead>
             <TableRow>
                 <TableCell>Name</TableCell>
@@ -48,17 +54,19 @@ export default function EventTable() {
                 <TableCell></TableCell>
                 <TableCell></TableCell>
                 <TableCell></TableCell>
+
              
 
             </TableRow>
           </TableHead>
           <TableBody>
+         
             {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row._id}>
                    <TableCell>{row.name}</TableCell>
-                   <TableCell>{row.status}</TableCell>
+                   <TableCell><EditStatus data={row}></EditStatus></TableCell>
                    <TableCell><Edit data={row}></Edit></TableCell>
                    <TableCell><Delete id={row._id}></Delete></TableCell>
                    <TableCell><Button>Show Participants</Button></TableCell>

@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import EventTable from './EventTable';
 import UserTable from './UserTable';
 
+import { Button } from '@mui/material';
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -53,6 +54,7 @@ export default function TableTab() {
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Events" {...a11yProps(0)} />
           <Tab label="Users" {...a11yProps(1)} />
+
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>

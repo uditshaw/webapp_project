@@ -18,7 +18,6 @@ exports.AllEvents=async(req,res)=>{
 }
 
 exports.AddEvent= async(req,res)=>{
-
     const  newEvent=await Event.create(req.body);
     try {
         const savedEvent = await newEvent.save();
@@ -179,7 +178,7 @@ exports.Editvent= async(req,res)=>{
     try {
         const savedEvent = await Event.updateOne(req.body.query,req.body.param);
         
-        console.log(req.body);
+        console.log(savedEvent);
         res.status(200).json(savedEvent);
       } catch (err) {
         
