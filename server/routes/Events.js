@@ -11,6 +11,8 @@ router.route('/Ongoing').get(event.OngoingEvent)
 router.route('/Edit').post(event.Editvent)
 router.route('/Past').get(event.PastEvent)
 router.route('/:id').get(event.getEventById)
+// router.route('/search').get(event.getEventByName)
+// router.route('/search').get(event.getEventByName)
 
 
 
