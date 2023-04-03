@@ -57,14 +57,16 @@ export default function Login(props) {
         password,
       }),
     });
-    console.log(res.headers.Cookies);
+   
     const data = res.json();
 
     if (res.status === 400 || !data) {
       window.alert("Invalid Credentials");
     } else {
+
       window.alert("Login successful");
       handleClose();
+      window.location.reload(false)
     }
   };
 

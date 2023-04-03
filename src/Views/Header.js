@@ -19,7 +19,8 @@ import EventsV2 from '../Components/EventsV2'
 import Login from '../Pages/Login'
 import SignUp from '../Pages/SignUp'
 import Searchbar from '../Components/Searchbar'
-
+import Cookies from 'js-cookie';
+import Dashboard from '../Pages/Dashboard'
 const appbar = {
   backgroundColor: '#38342b'
 }
@@ -59,15 +60,17 @@ function a11yProps (index) {
   }
 }
 
-const Header = () => {
+const Header = (props) => {
   const [value, setValue] = useState(0)
   const theme = useTheme()
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
-
-
   const isMatch = useMediaQuery(theme.breakpoints.down('md'))
+  console.log(Cookies.get('jwtoken'))
+  if(Cookies.get('jwtoken')===undefined)
+  {
+    console.log("Inisfasfsa")
   return (
     <>
       <AppBar sx={appbar}>
@@ -98,6 +101,7 @@ const Header = () => {
 
               {/* SEARCH BAR IMPLEMENTATION */}
               <Searchbar />
+
               
               <Login></Login>
               <SignUp></SignUp>
@@ -116,5 +120,56 @@ const Header = () => {
       </TabPanel>
     </>
   )
+}
+else
+{
+  console.log("Inside the header")
+  return (
+    <>
+      <AppBar sx={appbar}>
+        <Toolbar>
+          {isMatch ? (
+            <>
+              <DrawerComp></DrawerComp>
+              <Typography>K-Event</Typography>
+            </>
+          ) : (
+            <div style={{ display: 'flex', justifyContent: 'left' }}>
+              <Typography>K-VENT MANAGER</Typography>
+              <Tabs
+                style={{ marginLeft: '5vw' }}
+                textColor='inherit'
+                value={value}
+                onChange={handleChange}
+                indicatorColor='secondary'
+              >
+                {Pages.map((pages, index) => (
+                  <Tab
+                    key={index}
+                    label={pages}
+                    {...a11yProps({ index })}
+                  ></Tab>
+                ))}
+              </Tabs>
+
+              {/* SEARCH BAR IMPLEMENTATION */}
+              <Searchbar />
+                  <Dashboard jwt={props.jwt}></Dashboard>
+            </div>
+          )}
+        </Toolbar>
+      </AppBar>
+      <TabPanel value={value} index={0}>
+        <Home></Home>
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        <EventsV2></EventsV2>
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+        <About></About>
+      </TabPanel>
+    </>
+  )
+}
 }
 export default Header

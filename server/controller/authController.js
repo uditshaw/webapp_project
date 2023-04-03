@@ -65,7 +65,6 @@ exports.login = async (req, res) => {
 
       res.cookie("jwtoken", token, {
         expires: new Date(Date.now() + 86400000), // 86400000 milliseconds = 1 Day
-        httpOnly: true,
       });
       
 console.log(res.cookie.jwtoken)
