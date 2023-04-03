@@ -9,6 +9,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please tell us your name"],
   },
+  isAdmin:{
+    type:String},
+
   email: {
     type: String,
     required: [true, "Please provide your email"],
@@ -41,6 +44,8 @@ const userSchema = new mongoose.Schema({
       },
     },
   ],
+  events:[]
+  
 });
 
 userSchema.pre("save", async function (next) {

@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import Cookies from 'js-cookie';
 
 const style = {
   position: 'absolute',
@@ -20,32 +21,45 @@ export default function RegisterConfirm(props) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-if(props.status=="Ongoing")
-{
-  return (
-    <div>
-        <Button variant='contained' onClick={handleOpen} style={{marginLeft:"80%",marginTop:"5vh",height:"5vh",color:"white", background:"#af9bba"}} >Register</Button>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Typography>Are you sure to register?</Typography>
-        <Button variant='contained' style={{marginTop:"5vh",height:"5vh",color:"white", background:"#af9bba",width:"40%"}} >Yes</Button>
-        <Button variant='contained'  style={{marginTop:"5vh",marginLeft:"20px",height:"5vh",color:"white", background:"#af9bba",width:"40%"}} >No</Button>
-        </Box>
-      </Modal>
-    </div>
-  );
-}
-else
-{
-    return (
+  const handleYes = async () => {
+    console.log(props.id)
+    const res = await fetch("http://localhost:8000/api/v1/userData/AddEvent", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+
+      },
+      credentials: 'include',
+
+      body: JSON.stringify({
+        "id": Cookies.get('id'),
+        "eventId": props.id
+      }),
+    })}
+    if (props.status == "Ongoing") {
+      return (
         <div>
-            <Typography style={{color:"red", marginTop:"20px"}}>Registration Closed</Typography>
-            <Button variant='contained' disabled={true} onClick={handleOpen} style={{marginLeft:"80%",marginTop:"5vh",height:"5vh",color:"white", background:"#a3a0a3"}} >Register</Button>
+          <Button variant='contained' onClick={handleOpen} style={{ marginLeft: "80%", marginTop: "5vh", height: "5vh", color: "white", background: "#af9bba" }} >Register</Button>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <Typography>Are you sure to register?</Typography>
+              <Button variant='contained' style={{ marginTop: "5vh", height: "5vh", color: "white", background: "#af9bba", width: "40%" }} onClick={handleYes}  >Yes</Button>
+              <Button variant='contained' style={{ marginTop: "5vh", marginLeft: "20px", height: "5vh", color: "white", background: "#af9bba", width: "40%" }} >No</Button>
+            </Box>
+          </Modal>
+        </div>
+      );
+    }
+    else {
+      return (
+        <div>
+          <Typography style={{ color: "red", marginTop: "20px" }}>Registration Closed</Typography>
+          <Button variant='contained' disabled={true} onClick={handleOpen} style={{ marginLeft: "80%", marginTop: "5vh", height: "5vh", color: "white", background: "#a3a0a3" }} >Register</Button>
           <Modal
             open={open}
             onClose={handleClose}
@@ -58,5 +72,5 @@ else
           </Modal>
         </div>
       );
-}
-}
+    }
+  }

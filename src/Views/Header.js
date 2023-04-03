@@ -61,6 +61,11 @@ function a11yProps (index) {
 }
 
 const Header = (props) => {
+  const [Admin,setAdmin]=useState("no");
+  const setAdmin1=(event)=>
+  {
+    setAdmin(event);
+  }
   const [value, setValue] = useState(0)
   const theme = useTheme()
   const handleChange = (event, newValue) => {
@@ -103,7 +108,7 @@ const Header = (props) => {
               <Searchbar />
 
               
-              <Login></Login>
+              <Login set={setAdmin1}></Login>
               <SignUp></SignUp>
             </div>
           )}

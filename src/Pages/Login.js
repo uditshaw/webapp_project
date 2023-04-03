@@ -41,7 +41,7 @@ export default function Login(props) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
+  const [admin,setAdmin]=React.useState("no")
   const loginUser = async (e) => {
     e.preventDefault();
     const res = await fetch("http://localhost:8000/api/v1/users/login", {
@@ -57,7 +57,7 @@ export default function Login(props) {
         password,
       }),
     });
-   
+ 
     const data = res.json();
 
     if (res.status === 400 || !data) {
@@ -68,8 +68,39 @@ export default function Login(props) {
       handleClose();
       window.location.reload(false)
     }
-  };
+  }
+  const loginUserAdmin = async (e) => {
+    e.preventDefault();
+    const res = await fetch("http://localhost:8000/api/v1/users/loginAdmin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+   
+      },
+      credentials: 'include',
+  
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+ 
+    const data = res.json();
 
+    if (res.status === 400 || !data) {
+      window.alert("Invalid Credentials");
+    } else {
+
+      window.alert("Login successful");
+      handleClose();
+      window.location.reload(false)
+    }
+  }
+  const handleAdmin=()=>{
+    setAdmin("yes")
+  }
+if(admin==="no")
+{
   return (
     <div>
       <Button
@@ -106,10 +137,10 @@ export default function Login(props) {
             </Grid>
             <Button
               variant="outlined"
-              startIcon={<EmailIcon sx={{ color: red[500] }} />}
               fullWidth
+              onClick={handleAdmin}
             >
-              SignIn With Gmail
+              Sign In As Admin
             </Button>
             <Divider variant="middle" style={{ marginTop: "50px" }}>
               <Chip label="OR" />
@@ -162,3 +193,88 @@ export default function Login(props) {
     </div>
   );
 }
+else
+{
+  return(
+  <div>
+  <Button
+    variant="contained"
+    style={{
+      marginLeft: "9vh",
+      height: "5vh",
+      color: "black",
+      background: "white",
+    }}
+    onClick={handleOpen}
+  >
+    Login
+  </Button>
+  <Modal
+    open={open}
+    onClose={handleClose}
+    aria-labelledby="modal-modal-title"
+    aria-describedby="modal-modal-description"
+  >
+    <Grid>
+      <Paper elevation={10} style={paperStyle}>
+        <Button onClick={handleClose} style={{ color: "black" }}>
+          <CloseIcon></CloseIcon>
+        </Button>
+        <Grid align="center">
+          <Avatar style={avatarStyle}>
+            <AccountBoxIcon></AccountBoxIcon>
+          </Avatar>
+          <Typography>
+            {" "}
+            <h2 style={{ margin: "20px" }}>Sign In</h2>
+          </Typography>
+        </Grid>
+
+        <TextField
+          id="standard-basic"
+          variant="standard"
+          label="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Enter Email"
+          style={{ marginTop: "20px" }}
+          fullWidth
+          required
+        />
+        <TextField
+          id="standard-basic"
+          variant="standard"
+          label="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder=" Enter Password"
+          style={{ marginTop: "20px" }}
+          fullWidth
+          required
+          type="password"
+        />
+        <FormControlLabel
+          control={<Checkbox name="gilad" />}
+          style={{ marginTop: "10px", marginBottom: "10px" }}
+          label="Remember Me"
+        />
+        <Button
+          variant="contained"
+          color="success"
+          fullWidth
+          onClick={loginUserAdmin}
+        >
+          Sign In
+        </Button>
+        <Typography style={{ marginTop: "15px" }}>
+          <Link href="#" style={style1}>
+            Forget Password?
+          </Link>
+        </Typography>
+      </Paper>
+    </Grid>
+  </Modal>
+</div>
+)
+}
+  }

@@ -9,6 +9,8 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { useState } from 'react';
 import { Button } from '@mui/material';
+import MakeAdmin from './Components/makeAdmin';
+import RemoveAdmin from './Components/RemoveAdmin';
 export default function UserTable() {
     const [rows, setRows] = useState([])
   let data = fetch(`http://localhost:8000/api/v1/userData`, {
@@ -42,8 +44,9 @@ export default function UserTable() {
                 <TableCell>Name</TableCell>
                 <TableCell>Email ID</TableCell>
                 <TableCell></TableCell>
-             
-             
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
 
             </TableRow>
           </TableHead>
@@ -54,7 +57,10 @@ export default function UserTable() {
                   <TableRow hover role="checkbox" tabIndex={-1} key={row._id}>
                    <TableCell>{row.name}</TableCell>
                    <TableCell>{row.email}</TableCell>
+                   <TableCell>{(row.isAdmin==="yes"?"Admin":"Student")}</TableCell>
                    <TableCell><Button>Remove</Button></TableCell>
+                   <TableCell><MakeAdmin></MakeAdmin></TableCell>
+                   <TableCell><RemoveAdmin id={row._id}></RemoveAdmin></TableCell>
                   </TableRow>
                 );
               })}

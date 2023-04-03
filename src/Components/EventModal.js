@@ -76,7 +76,7 @@ export default function EventModal(props) {
           </div>
           
           </div>
-       <RegisterConfirm status={event[0].status}></RegisterConfirm>
+       <RegisterConfirm status={event[0].status} id={event[0]._id}></RegisterConfirm>
         </Box>
       </Modal>
     </div>

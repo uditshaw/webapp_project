@@ -5,7 +5,7 @@ const router = express.Router();
 const jwt=require('jsonwebtoken');
 router.use(cookieParser());
 router.route("/login").post(auth.isKiitEmail, auth.login);
-
+router.route("/loginAdmin").post(auth.isKiitEmail, auth.loginAdmin)
 router.route("/register").get(auth.AllUsers);
 router.route("/register").post(auth.isKiitEmail, auth.newRegister);
 
