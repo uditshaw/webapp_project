@@ -210,3 +210,18 @@ exports.getEventByName = async (req, res) => {
     });
   }
 };
+
+exports.AddEventToEvents= async(req,res)=>{
+    console.log(req.body.id)
+    console.log(req.body)
+        try {
+            var myquery = { _id: req.body.eventId };
+            var newvalues = { $push: {registration:req.body.id}};
+            const savedEvent = await Event.updateOne(myquery,newvalues);
+         
+        console.log(savedEvent);
+            res.status(200).json({"message":"hi"})
+          } catch (err) {
+            
+          }
+    }

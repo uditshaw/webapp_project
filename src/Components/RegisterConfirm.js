@@ -19,8 +19,19 @@ const style = {
 
 export default function RegisterConfirm(props) {
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const handleOpen = () =>
+  { 
+    if(Cookies.get('jwtoken')===undefined)
+    {console.log("inside")
+      window.alert("Please login First");
+      window.location.reload(false)
+  handleClose()}
+    else
+    setOpen(true);
+
+  }
+
   const handleYes = async () => {
     console.log(props.id)
     const res = await fetch("http://localhost:8000/api/v1/userData/AddEvent", {
@@ -34,8 +45,24 @@ export default function RegisterConfirm(props) {
       body: JSON.stringify({
         "id": Cookies.get('id'),
         "eventId": props.id
-      }),
-    })}
+      })
+    })
+    const res1 = await fetch("http://localhost:8000/api/v1/events/AddEventToEvents", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+
+      },
+      credentials: 'include',
+
+      body: JSON.stringify({
+        "id": Cookies.get('id'),
+        "eventId": props.id
+      })
+    })
+  window.alert("Register successfull")
+handleClose();
+window.location.reload(false)}
     if (props.status == "Ongoing") {
       return (
         <div>

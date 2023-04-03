@@ -6,4 +6,5 @@ router.route('/').get(user.AllUsers);
 router.route('/removeAdmin').post(user.removeAdmin);
 router.route('/makeAdmin').post(user.makeAdmin);
 router.route('/AddEvent').post(user.AddEvent);
+
 module.exports=router;

@@ -56,8 +56,8 @@ exports.login = async (req, res) => {
       res.cookie('jwtoken', token, {
         expires: new Date(Date.now() + 86400000)
       })
-      console.log(userLogin._id.toString())
       res.cookie('id', userLogin._id.toString())
+      res.cookie('name', userLogin['name'])
       console.log(res.cookie.jwtoken)
 
       console.log(res.cookie.jwtoken)

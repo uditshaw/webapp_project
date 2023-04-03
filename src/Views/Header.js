@@ -128,7 +128,6 @@ const Header = (props) => {
 }
 else
 {
-  console.log("Inside the header")
   return (
     <>
       <AppBar sx={appbar}>

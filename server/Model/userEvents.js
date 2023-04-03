@@ -11,6 +11,7 @@ const userSchema= new mongoose.Schema({
     location:String,
     department:String,
     status:String,
+    registration:[]
 });
 const Event = mongoose.model('Event',userSchema);
 module.exports=Event;

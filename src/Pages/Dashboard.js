@@ -2,9 +2,11 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-
+import Cookies from 'js-cookie';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 export default function Dashboard() {
   const [anchorEl, setAnchorEl] = React.useState(null);
+
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -12,18 +14,20 @@ export default function Dashboard() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  const handleLogout=()=>{
+    Cookies.remove('jwtoken');
+    handleClose();
+    window.location.reload(false)
+  }
   return (
     <div>
       <Button
-        id="basic-button"
-        aria-controls={open ? 'basic-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
+      upperCase
         onClick={handleClick}
-        style={{marginLeft:"30vh"}}
+        style={{marginLeft:"25vh",textTransform:"none",color:"white"}}
       >
-        Dashboard
+        <pre >Welcome Back  {Cookies.get('name')}</pre>  
+        <KeyboardArrowDownIcon style={{marginTop:"5px"}}></KeyboardArrowDownIcon>
       </Button>
       <Menu
         id="basic-menu"
@@ -36,7 +40,7 @@ export default function Dashboard() {
       >
         <MenuItem onClick={handleClose}>Profile</MenuItem>
         <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </div>
   );
