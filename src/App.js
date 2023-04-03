@@ -15,23 +15,21 @@ function App() {
   console.log(Cookies.get('jwtoken'));
   if(Cookies.get('Admin')==="yes")
   {
+    window.alert("login Successfull");
   return <Main></Main>
   }
-  else
+  else if(Cookies.get('Admin')==="no")
+  {
+    window.alert("You are not an admin");
+    Cookies.remove('Admin');
+    Cookies.remove('jwtoken');
+    window.location.reload(false);
+  }
+  else if(Cookies.get('Admin')===undefined)
   {
     return (
-      // <div style={{padding:0,margin:0,boxSizing:"border-box"}}>
-      //   <Header />
-      //   <Footer></Footer>
-      //   <Routes>
-      //         <Route path='/Login' element={<Login/>}></Route>
-      //         <Route path='/Signup' element={<SignUp/>}></Route>
-  
-      //         </Routes>
-      // </div>
-      // <Main></Main>
       <div style={{padding:0,margin:0,boxSizing:"border-box"}}>
-        <Header jwt={Cookies.get('jwtoken')}/>
+        <Header jwt={Cookies.get('jwtoken')} />
         <Footer></Footer>
       </div>
     );

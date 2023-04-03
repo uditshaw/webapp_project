@@ -90,8 +90,6 @@ export default function Login(props) {
     if (res.status === 400 || !data) {
       window.alert("Invalid Credentials");
     } else {
-
-      window.alert("Login successful");
       handleClose();
       window.location.reload(false)
     }

@@ -24,6 +24,7 @@ const responsive = {
 }
 function AllEvents (props) {
   const [event, setEvents] = useState([])
+
   useEffect(()=>{
   let data = fetch(`http://localhost:8000/api/v1/events/`, {
     method: 'POST',
@@ -33,9 +34,7 @@ function AllEvents (props) {
     .then(res => {
       return res.json()
     })
-    .then(d => setEvents(d.data.Events))
-  },[]);
-  console.log(Cookies.get('jwtoken'));
+    .then(d => setEvents(d.data.Events))},[props.department,props.status]);
   return (
     <Box sx={{ flexGrow: 3 }}>
       <Grid container spacing={2}>
