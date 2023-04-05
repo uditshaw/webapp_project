@@ -1,8 +1,11 @@
 import React from 'react'
+import CarouselCard from './Carousel'
 
 const About = () => {
   return (
-    <div>About</div>
+    <div>
+      <CarouselCard></CarouselCard>
+    </div>
   )
 }
 
