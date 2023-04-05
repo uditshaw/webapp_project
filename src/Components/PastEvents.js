@@ -41,6 +41,7 @@ const responsive = {
 };
 function PastEvent(props) {
   const [event, setEvents] = useState([]);
+  useEffect(()=>{
   let data = fetch("http://localhost:8000/api/v1/events/Past", {
     method: "GET",
     headers: { "Content-Type": "application/json" },
@@ -49,6 +50,7 @@ function PastEvent(props) {
       return res.json();
     })
     .then((d) => setEvents(d.data.Events));
+  },[])
   const events = event.map((item) => (
     <MediaCard items={item} data={event}></MediaCard>
   ));
