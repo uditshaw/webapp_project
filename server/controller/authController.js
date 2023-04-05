@@ -1,7 +1,7 @@
 const User = require("./../Model/userModel");
 const bcrypt = require("bcryptjs");
-const jwt=require('jsonwebtoken');
-const cookieParser = require('cookie-parser')
+const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
 exports.AllUsers = async (req, res, next) => {
   try {
     console.log("From inside all users");
@@ -18,14 +18,12 @@ exports.AllUsers = async (req, res, next) => {
 };
 
 exports.isKiitEmail = async (req, res, next) => {
-  
   const regex = new RegExp("^[a-zA-Z0-9_.+-]+@kiit.ac.in");
   email = req.body.email;
   const check = email.match(regex);
   // const User1 = await User.findOne({ email: email });
 
   if (!check) {
-
     return res.status(400).json({
       status: "failed",
       message: "Please use a valid KIIT email id",
@@ -43,8 +41,6 @@ exports.isKiitEmail = async (req, res, next) => {
 
 exports.login = async (req, res) => {
   try {
-
-
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -61,52 +57,51 @@ exports.login = async (req, res) => {
     if (userLogin && isPasswordMatch) {
       const token = await userLogin.generateAuthToken();
 
-      res.header("Access-Control-Allow-Credentials",true);
+      res.header("Access-Control-Allow-Credentials", true);
 
       res.cookie("jwtoken", token, {
         expires: new Date(Date.now() + 86400000), // 86400000 milliseconds = 1 Day
       });
-      
-console.log(res.cookie.jwtoken)
+
+      console.log(res.cookie.jwtoken);
 
       res.status(200).json({ message: "User signed in successfully" });
     } else {
       return res.status(400).json({ error: "Invalid Credentials" });
     }
-  } catch (error) {
-
-  }
+  } catch (error) {}
 };
 
 exports.newRegister = async (req, res) => {
-
   const { name, email, password, passwordConfirm } = req.body;
 
   if (!name || !email || !password || !passwordConfirm) {
-
-    return res
-      .status(400)
-      .json({ status:"failed",
-      message: "Please enter all the required fields" });
+    return res.status(400).json({
+      status: "failed",
+      message: "Please enter all the required fields",
+    });
   }
 
   try {
     const userExist = await User.findOne({ email: email });
 
     if (userExist) {
-      return res.status(400).json({ status:"failed",message: "Email already exists" });
-    } else if (password !== passwordConfirm) {
       return res
         .status(400)
-        .json({ status:"failed",message: "Password and confirm password not same" });
+        .json({ status: "failed", message: "Email already exists" });
+    } else if (password !== passwordConfirm) {
+      return res.status(400).json({
+        status: "failed",
+        message: "Password and confirm password not same",
+      });
     } else {
       const user = new User({ email, password, passwordConfirm, name });
       await user.save();
-      res.status(201).json({status:"success", message: "User registered successfully" });
+      res
+        .status(201)
+        .json({ status: "success", message: "User registered successfully" });
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 // exports.checkName = (req, res, next) => {
