@@ -86,11 +86,10 @@ exports.comparePasswords = (req,res,next) => {
     next();
 }
 let transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
-    port: 587,
+    service: "gmail",
     auth: {
-        user: 'april.collins@ethereal.email',
-        pass: 'Cqvb8YSa44Pf35a2J2'
+        user: 'test.event.reg@gmail.com',
+        pass: 'qjqnqbrkedurunsn'
     }
 })
 exports.sendOtpVerificationEmail = async (req, res) => {
@@ -100,10 +99,10 @@ exports.sendOtpVerificationEmail = async (req, res) => {
         const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
         console.log(otp);
         const mailOptions = {
-            from: '"April Collins" <april.collins@ethereal.email>',
+            from: '"Event Admin" <test.event.reg@gmail.com>',
             to: email,
             subject: "Verify Your Email",
-            html: `<p>Your OTP for email verification : <b>${otp}</b><br />.<b>THIS OTP EXPIRES IN 2 MINUTES.</b></p>`
+            html: `<p>Your OTP for email verification : <b>${otp}</b>.<br /><b>THIS OTP EXPIRES IN 2 MINUTES.</b></p>`
         }
 
         const saltRounds = 10;
@@ -116,7 +115,7 @@ exports.sendOtpVerificationEmail = async (req, res) => {
         });
 
         await newOtpVerification.save();
-        await transporter.sendMail(mailOptions);
+        transporter.sendMail(mailOptions);
         res.status(200).json({
            status: "pending",
            message: "Verification OTP sent to your email",
