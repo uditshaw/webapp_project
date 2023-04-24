@@ -1,5 +1,6 @@
 const Event=require('./../Model/userEvents');
-var cors=require("cors")
+var cors=require("cors");
+const { mergeSlotProps } = require('@mui/base');
 exports.AllEvents=async(req,res)=>{
     try{
         const Events= await Event.find();

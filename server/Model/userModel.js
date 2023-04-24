@@ -10,8 +10,8 @@ const userSchema = new mongoose.Schema({
     required: [true, "Please tell us your name"],
   },
   isAdmin:{
-    type:String},
-
+    type:String,
+  },
   email: {
     type: String,
     required: [true, "Please provide your email"],
@@ -71,6 +71,15 @@ userSchema.methods.generateAuthToken = async function () {
     console.log(error);
   }
 };
+
+// userSchema.estimatedDocumentCount(function (err, count) {
+//   if (err){
+//       console.log(err)
+//   }else{
+//       console.log("Estimated Count :", count)
+//   }
+// });
+
 
 const User = mongoose.model("User", userSchema);
 module.exports = User;

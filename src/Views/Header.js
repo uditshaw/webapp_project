@@ -21,6 +21,7 @@ import SignUp from '../Pages/SignUp'
 import Searchbar from '../Components/Searchbar'
 import Cookies from 'js-cookie';
 import Dashboard from '../Pages/Dashboard'
+
 const appbar = {
   backgroundColor: '#38342b'
 }
