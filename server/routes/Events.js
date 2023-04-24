@@ -8,7 +8,5 @@ router.route('/Upcoming').get(event.UpcomingEvent)
 router.route('/Ongoing').get(event.OngoingEvent)
 router.route('/Past').get(event.PastEvent)
 router.route('/:id').get(event.getEventById)
-// router.route('/search').get(event.getEventByName)
-// router.route('/search').get(event.getEventByName)
 
 module.exports=router;

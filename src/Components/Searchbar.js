@@ -80,7 +80,7 @@ const Searchbar = () => {
           onChange={(e) => handleChange(e) }
         />
         </Paper>
-        {input == "" ? (<></>) :
+        {input === "" ? (<></>) :
                 <Box sx={box2}>
                 {events.length ? 
                   events.map(item => (

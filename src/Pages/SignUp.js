@@ -13,27 +13,32 @@ import { red } from "@mui/material/colors";
 
 import Divider from "@mui/material/Divider";
 import Chip from "@mui/material/Chip";
+import OTPBox from '../Components/OTPBox';
 
 const paperStyle = {padding:20,height:'80vh',width:'60vh',margin:"20px auto"}
     const avatarStyle={background:"#1bbd7e"}
     const style1={marginTop:'10px'}
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
+// const style = {
+//   position: 'absolute',
+//   top: '50%',
+//   left: '50%',
+//   transform: 'translate(-50%, -50%)',
+//   width: 400,
+//   bgcolor: 'background.paper',
+//   border: '2px solid #000',
+//   boxShadow: 24,
+//   p: 4,
+// };
 
 export default function SignUp(props) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = (e, reason) => {
+    if(reason && reason == "backdropClick")
+      return;
+    setOpen(false);
+  }
 
   // Form Data States
   const [name, setName] = React.useState("");
@@ -44,10 +49,14 @@ export default function SignUp(props) {
   const [respStatus, setRespStatus] = React.useState("");
   const [regMsg, setRegMsg] = React.useState("");
 
-  const [openSnackbar, setOpenSnackbar] = React.useState(false);
-  const handleSnackOpen = () => setOpenSnackbar(true);
-  const handleSnackClose = () => setOpenSnackbar(false);
-
+  // OTP AUTHENTICATION BOX
+  const [openOtpBox, setOpenOtpBox] = React.useState(false);
+  const handleShowOtpBox = () => setOpenOtpBox(true);
+  const handleHideOtpBox = (e, reason) => {
+    if(reason && reason == "backdropClick")
+      return;
+    setOpenOtpBox(false);
+  }
 
   const handleSubmit = async(e) => {
     let data = await fetch("http://localhost:8000/api/v1/users/register",{
@@ -66,9 +75,8 @@ export default function SignUp(props) {
      .then(user => {
         setRegMsg(user.message);
         setRespStatus(user.status);
-        if(user.status === "success") {
-          handleSnackOpen();
-          handleClose();
+        if(user.status === "pending"){
+          handleShowOtpBox();
         }
       });
   }
@@ -105,24 +113,12 @@ export default function SignUp(props) {
             style={{marginTop:'10px',marginBottom:'10px'}}
             label="Remember Me"
           />
-          {/* {
-            respStatus === "" ? <></> : (
-              {
-                respStatus === "failed" ? 
-                  <Alert severity="error">{regMsg}</Alert> : <Alert severity="success">{regMsg}</Alert>
-              })
-          } */}
-          {/* { respStatus === "failed" ? 
-            (
-              <Alert severity="error">{regMsg}</Alert>
-            ):(
-              <Alert severity="success">{regMsg}</Alert>
-            )} */}
+
           {(() => {
               switch (respStatus) { 
               case "failed":
                 return <Alert severity="error">{regMsg}</Alert>;
-              case "success":
+              case "pending":
                 return <Alert severity="success">{regMsg}</Alert>;
               default:
                 return <></>;
@@ -130,17 +126,24 @@ export default function SignUp(props) {
             })()
           }
           <Button onClick={handleSubmit} variant="contained" color="success" fullWidth>
-            Sign In
+            Send otp
           </Button>
-          <Typography style={{marginTop:'15px'}}>
+          <Modal
+            open={openOtpBox}
+            onClose={handleHideOtpBox}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            // hideBackdrop='true'
+          > 
+            <OTPBox name={name} email={email} password={password} passwordConfirm={passwordConfirm}/>
+          </Modal>
+          {/* <Typography style={{marginTop:'15px'}}>
             <Link href="/Login" style={style1}>Already have a account? Login</Link>
-          </Typography>
+            
+          </Typography> */}
           </Paper>
          </Grid>
       </Modal>
-      <Snackbar open={openSnackbar} onClose={handleSnackClose} autoHideDuration={2000}>
-        <Alert variant='filled' severity="success">{regMsg}</Alert>
-      </Snackbar>
     </div>
   );
 }
