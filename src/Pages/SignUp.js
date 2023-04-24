@@ -78,6 +78,7 @@ export default function SignUp(props) {
         email: email,
         password: password,
         passwordConfirm: passwordConfirm,
+        isAdmin: "no"
       }),
     })
       .then((res) => {
