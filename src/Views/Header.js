@@ -87,10 +87,9 @@ const Header = (props) => {
               <Typography>K-Event</Typography>
             </>
           ) : (
-            <div style={{ display: 'flex', justifyContent: 'left' }}>
-              <Typography>K-VENT MANAGER</Typography>
+            <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
+              <Typography variant='h6'>K-VENT MANAGER</Typography>
               <Tabs
-                style={{ marginLeft: '5vw' }}
                 textColor='inherit'
                 value={value}
                 onChange={handleChange}

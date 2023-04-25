@@ -1,14 +1,17 @@
 import React from 'react'
 import SearchIcon from '@mui/icons-material/Search'
-import { Box, Card, CardContent, CardHeader, CardMedia, IconButton, Input, Link, Paper, Typography } from '@mui/material'
+import { Box, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, Input, Link, Paper, Typography } from '@mui/material'
 import { useState } from 'react'
+import EventModal from './EventModal'
 
 
 const box = {
+  position: 'absolute',
   display: 'flex',
   flexDirection: 'column',
   backgroundColor: '#35383e',
-  borderRadius: '20px'
+  borderRadius: '20px',
+  marginLeft: '40vw'
 }
 const paper = {
   backgroundColor: 'inherit',
@@ -35,7 +38,8 @@ const card = {
 }
 const cardmedia = {
   height: '5vh',
-  width: '5vw'
+  width: '5vw',
+  margin: '0.5vh 0 0 0.5vw'
 }
 const cardcontent = {
   display: 'flex',
@@ -67,7 +71,7 @@ const Searchbar = () => {
 
   return (
     <>
-      <Box sx={box} style={{ marginLeft: '5vw' }}>
+      <Box sx={box}>
         <Paper sx={paper}>
         <IconButton>
             <SearchIcon sx={{ color: '#dcdcdc' }} />
@@ -91,6 +95,9 @@ const Searchbar = () => {
                       <Typography variant='body1'><b>{item.name}</b></Typography>
                       <Typography variant='body2'><i>({item.status})</i></Typography>
                     </CardContent>
+                    <CardActions>
+                      <EventModal id={item._id}></EventModal>
+                    </CardActions>
                   </Card>
                   </Link>
                   )) :

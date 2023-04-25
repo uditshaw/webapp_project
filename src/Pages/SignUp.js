@@ -88,7 +88,7 @@ export default function SignUp(props) {
       <Button
         variant="contained"
         style={{
-          marginLeft: "2vh",
+          marginRight: "2vw",
           height: "5vh",
           color: "black",
           background: "white",
