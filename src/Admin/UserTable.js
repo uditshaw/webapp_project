@@ -1,27 +1,26 @@
-import * as React from 'react';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import { useState } from 'react';
-import { Button } from '@mui/material';
-import MakeAdmin from './Components/makeAdmin';
-import RemoveAdmin from './Components/RemoveAdmin';
+import * as React from "react";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
+import { useState } from "react";
+import { Button } from "@mui/material";
+import MakeAdmin from "./Components/makeAdmin";
+import RemoveAdmin from "./Components/RemoveAdmin";
 export default function UserTable() {
-    const [rows, setRows] = useState([])
+  const [rows, setRows] = useState([]);
   let data = fetch(`http://localhost:8000/api/v1/userData`, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' }
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
   })
-    .then(res => {
-      return res.json()
+    .then((res) => {
+      return res.json();
     })
-    .then(d => 
-        setRows(d.data.User))
+    .then((d) => setRows(d.data.User));
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -34,33 +33,41 @@ export default function UserTable() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-  const[value,setValue]=React.useState(0);
+  const [value, setValue] = React.useState(0);
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+    <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>Email ID</TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-
+              <TableCell>Name</TableCell>
+              <TableCell>Email ID</TableCell>
+              <TableCell></TableCell>
+              <TableCell></TableCell>
+              <TableCell></TableCell>
+              <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            {rows
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row._id}>
-                   <TableCell>{row.name}</TableCell>
-                   <TableCell>{row.email}</TableCell>
-                   <TableCell>{(row.isAdmin==="yes"?"Admin":"Student")}</TableCell>
-                   <TableCell><Button>Remove</Button></TableCell>
-                   <TableCell><MakeAdmin></MakeAdmin></TableCell>
-                   <TableCell><RemoveAdmin id={row._id}></RemoveAdmin></TableCell>
+                    <TableCell>{row.name}</TableCell>
+                    <TableCell>{row.email}</TableCell>
+                    <TableCell>
+                      {row.isAdmin === "yes" ? "Admin" : "Student"}
+                    </TableCell>
+                    <TableCell>
+                      <Button>Remove</Button>
+                    </TableCell>
+                    <TableCell>
+                      <MakeAdmin id={row._id}></MakeAdmin>
+                    </TableCell>
+                    <TableCell>
+                      <RemoveAdmin id={row._id}></RemoveAdmin>
+                    </TableCell>
                   </TableRow>
                 );
               })}
