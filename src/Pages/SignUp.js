@@ -78,7 +78,7 @@ export default function SignUp(props) {
         email: email,
         password: password,
         passwordConfirm: passwordConfirm,
-        isAdmin: "no"
+        isAdmin: "no",
       }),
     })
       .then((res) => {
@@ -87,7 +87,7 @@ export default function SignUp(props) {
       .then((user) => {
         setRegMsg(user.message);
         setRespStatus(user.status);
-        console.log(user.status)
+        console.log(user.status);
         if (user.status === "success") {
           handleSnackOpen();
           handleClose();
