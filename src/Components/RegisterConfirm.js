@@ -47,6 +47,11 @@ export default function RegisterConfirm(props) {
         "eventId": props.id
       })
     })
+    if(res.status===400)
+    {window.alert("Already Register");
+    window.location.reload(false)}
+    else
+    {
     const res1 = await fetch("http://localhost:8000/api/v1/events/AddEventToEvents", {
       method: "POST",
       headers: {
@@ -63,6 +68,7 @@ export default function RegisterConfirm(props) {
   window.alert("Register successfull")
 handleClose();
 window.location.reload(false)}
+  }
     if (props.status == "Ongoing") {
       return (
         <div>

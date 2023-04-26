@@ -14,7 +14,20 @@ exports.AllEvents = async (req, res) => {
     });
   }
 };
-
+exports.getEvents = async (req, res) => {
+  try {
+    const Events = await Event.find({_id:req.body.id});
+ console.log(Events);
+    res.status(200).json({
+      status: "success",
+      data: { Events },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "Failed",
+    });
+  }
+};
 exports.AddEvent = async (req, res) => {
   console.log("Body: " + JSON.stringify(req.body));
   console.log("FIle: " + JSON.stringify(req.file));

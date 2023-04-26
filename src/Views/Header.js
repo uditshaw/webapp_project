@@ -21,13 +21,17 @@ import SignUp from '../Pages/SignUp'
 import Searchbar from '../Components/Searchbar'
 import Cookies from 'js-cookie';
 import Dashboard from '../Pages/Dashboard'
+import Profile from '../Components/Profile'
 
 const appbar = {
-  backgroundColor: '#38342b'
+  backgroundColor: '#38342b',
+  
+  
 }
 
 
 const Pages = ['Home', 'Events', 'About US']
+const PagesLog = ['Profile', 'Events', 'About US']
 function TabPanel (props) {
   const { children, value, index, ...other } = props
 
@@ -147,7 +151,7 @@ else
                 onChange={handleChange}
                 indicatorColor='secondary'
               >
-                {Pages.map((pages, index) => (
+                {PagesLog.map((pages, index) => (
                   <Tab
                     key={index}
                     label={pages}
@@ -159,12 +163,13 @@ else
               {/* SEARCH BAR IMPLEMENTATION */}
               <Searchbar />
                   <Dashboard jwt={props.jwt}></Dashboard>
+                  
             </div>
           )}
         </Toolbar>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <Home></Home>
+   <Profile></Profile>
       </TabPanel>
       <TabPanel value={value} index={1}>
         <EventsV2></EventsV2>
