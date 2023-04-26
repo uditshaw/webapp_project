@@ -5,6 +5,8 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import AddIcon from "@mui/icons-material/Add";
 import { TextField } from "@mui/material";
+import axios from "axios";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -24,7 +26,8 @@ export default function Delete(props) {
   const [department, setDepartment] = React.useState();
   const [status, setStatus] = React.useState();
   const [description, setDescription] = React.useState();
-  const [file, setFile] = React.useState();
+  const [file, setFile] = React.useState("");
+
   const handleName = (event) => {
     setName(event.target.value);
   };
@@ -47,12 +50,49 @@ export default function Delete(props) {
     setFile(event.target.files[0]);
     console.log(file);
   };
-  const handleClose = () => {
-    let data = fetch(`http://localhost:8000/api/v1/events/add`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, location, department, status, description }),
-    });
+
+  const handleClose = async () => {
+    var formData = new FormData();
+    formData.append("photo", file);
+    formData.append("name", name);
+    formData.append("location", location);
+    formData.append("department", department);
+    formData.append("status", status);
+    formData.append("description", description);
+
+    console.log("FormData: " + JSON.stringify(formData));
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    try {
+      const res = await axios.post(
+        "http://localhost:8000/api/v1/events/add",
+        formData,
+        config
+      );
+
+      console.log("Response from frontend: " + JSON.stringify(res));
+      // console.log(res);
+
+      if (res.data.status === 401 || !res.data) {
+        console.log("Error");
+      } else {
+        // Redirect to homepage
+        // history("/");
+      }
+
+      // console.log(res);
+    } catch (error) {
+      // console.log(error.response.data);
+    }
+
+    // let data = fetch(`http://localhost:8000/api/v1/events/add`, {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({ name, location, department, status, description }),
+    // });
 
     setOpen(false);
   };
@@ -107,6 +147,7 @@ export default function Delete(props) {
           <TextField
             style={{ marginTop: "20px", width: "100%" }}
             onChange={handleUploadFile}
+            name="photo"
             label=""
             type="file"
           ></TextField>
