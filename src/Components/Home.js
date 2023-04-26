@@ -1,13 +1,13 @@
-import { Typography } from '@mui/material'
-import React from 'react'
-import CarouselCard from './Carousel'
+import { Typography } from "@mui/material";
+import React from "react";
+import CarouselCard from "./Carousel";
 
-import OngoingEvent from './OngoingEvents'
-import UpcomingEvent from './UpcomingEvents'
-import PastEvent from './PastEvents'
+import OngoingEvent from "./OngoingEvents";
+import UpcomingEvent from "./UpcomingEvents";
+import PastEvent from "./PastEvents";
 const Home = () => {
   return (
-    <div style={{ marginTop: '7vh' }}>
+    <div style={{ marginTop: "7vh" }}>
       <CarouselCard></CarouselCard>
       <Typography>
         <h2 style={{ marginBottom: 30 }}>Ongoing Events</h2>
@@ -22,7 +22,7 @@ const Home = () => {
       </Typography>
       <PastEvent></PastEvent>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

@@ -1,9 +1,11 @@
 const Event = require("./../Model/userEvents");
 var cors = require("cors");
 const { mergeSlotProps } = require("@mui/base");
+
 exports.AllEvents = async (req, res) => {
   try {
     const Events = await Event.find();
+
     res.status(200).json({
       status: "success",
       data: { Events },
@@ -16,9 +18,6 @@ exports.AllEvents = async (req, res) => {
 };
 
 exports.AddEvent = async (req, res) => {
-  console.log("Body: " + JSON.stringify(req.body));
-  console.log("FIle: " + JSON.stringify(req.file));
-
   try {
     const { name, location, department, status, description } = req.body;
     const { filename } = req.file;
@@ -160,8 +159,6 @@ exports.getEventByName = async (req, res) => {
   const { name } = req.query;
 
   try {
-    // console.log("Inside GetEventByName");
-    // console.log();
     const Events = await Event.find({
       name: { $regex: ".*" + name + ".*", $options: "i" },
     });
