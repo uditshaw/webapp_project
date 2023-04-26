@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
@@ -23,20 +22,23 @@ const responsive = {
   },
 };
 function OngoingEvent(props) {
-
   const [event, setEvents] = useState([]);
-  useEffect(()=>{
-  let data = fetch("http://localhost:8000/api/v1/events/Ongoing", {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  })
-    .then((res) => {
-      return res.json();
+  useEffect(() => {
+    let data = fetch("http://localhost:8000/api/v1/events/Ongoing", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
     })
-    .then((d) => setEvents(d.data.Events));
-  },[])
+      .then((res) => {
+        return res.json();
+      })
+      .then((d) => {
+        setEvents(d.data.Events);
+        // console.log(d.data.Events);
+      });
+  }, []);
   const events = event.map((item) => (
-    <MediaCard items={item} data={event}></MediaCard>
+    // <MediaCard items={item} data={event}></MediaCard>
+    <MediaCard items={item}></MediaCard>
   ));
   return <Carousel responsive={responsive}>{events}</Carousel>;
 }
