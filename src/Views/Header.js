@@ -1,65 +1,179 @@
-import { Button, ButtonGroup, Card, CardActions, CardContent, IconButton, InputBase, Paper, TextField, Typography } from '@mui/material'
-import React from 'react'
-import Navbar from '../Components/Navbar';
-import SearchIcon from '@mui/icons-material/Search';
-// import MenuIcon from '@mui/icons-material/Menu';
+import React from "react";
+import {
+  AppBar,
+  Tab,
+  Tabs,
+  Toolbar,
+  Typography,
+  useMediaQuery,
+  useTheme,
+  Paper,
+  Box,
+} from "@mui/material";
+import { useState } from "react";
+import DrawerComp from "../Components/DrawerComp";
+import PropTypes from "prop-types";
+import About from "../Components/About";
+import Home from "../Components/Home";
+import EventsV2 from "../Components/EventsV2";
+import Login from "../Pages/Login";
+import SignUp from "../Pages/SignUp";
+import Searchbar from "../Components/Searchbar";
+import Cookies from "js-cookie";
+import Dashboard from "../Pages/Dashboard";
 
-const card = {
-  backgroundColor: '#38342b',
-  color: '#d49c1e',
-  display: 'flex',
-  justifyContent: 'flex-start',
-  flexDirection: 'row',
-  height: '10vh',
-  // alignItems: 
-};
-const cardcontent = {
-  display: 'flex',
-
-};
-const cardactions = {
-  display: 'flex',
-  backgroundColor: 'black',
-  width: '64vw'
-};
-const paper = {
-  display: 'flex',
-  backgroundColor: '#35383e',
-  borderRadius: '20px'
-};
-const inputbase = {
-  backgroundColor: 'inherit',
-  color: '#fff',
-  borderRadius: '20px',
-  height: '40px',
-  width: '31vw',
-  padding: '7px'
-};
-const button = {
-  margin: '10px 5px'
+const appbar = {
+  backgroundColor: "#38342b",
 };
 
-const Banner = () => {
+const Pages = ["Home", "Events", "About US"];
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
 
-  // const classes = useStyles();
   return (
-    <div>
-        <Card sx={card}>
-          <CardContent sx={cardcontent}>
-            <Typography variant='h6'>K-VENT MANAGER</Typography>
-          </CardContent>
-          <CardActions sx={cardactions}>
-            <Navbar />
-            <Paper sx={paper}>
-            <IconButton><SearchIcon sx={{color: '#dcdcdc'}}/></IconButton>
-            <InputBase sx={inputbase} placeholder="Search for events"  inputProps={{ 'aria-label': 'search event' }} />
-            </Paper>
-          </CardActions>
-              <Button variant='contained' sx={button}>Login</Button>
-              <Button variant='contained' sx={button}>Sign Up</Button>
-        </Card>
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
     </div>
-  )
+  );
 }
 
-export default Banner
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
+
+const Header = (props) => {
+  const [Admin, setAdmin] = useState("no");
+  const setAdmin1 = (event) => {
+    setAdmin(event);
+  };
+  const [value, setValue] = useState(0);
+  const theme = useTheme();
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+  const isMatch = useMediaQuery(theme.breakpoints.down("md"));
+  // console.log(Cookies.get("jwtoken"));
+  if (Cookies.get("jwtoken") === undefined) {
+    // console.log("Inisfasfsa")
+    return (
+      <>
+        <AppBar sx={appbar}>
+          <Toolbar>
+            {isMatch ? (
+              <>
+                <DrawerComp></DrawerComp>
+                <Typography>K-Event</Typography>
+              </>
+            ) : (
+              <div
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Typography variant="h6">K-VENT MANAGER</Typography>
+                <Tabs
+                  textColor="inherit"
+                  value={value}
+                  onChange={handleChange}
+                  indicatorColor="secondary"
+                >
+                  {Pages.map((pages, index) => (
+                    <Tab
+                      key={index}
+                      label={pages}
+                      {...a11yProps({ index })}
+                    ></Tab>
+                  ))}
+                </Tabs>
+
+                {/* SEARCH BAR IMPLEMENTATION */}
+                <Searchbar />
+
+                <Login set={setAdmin1}></Login>
+                <SignUp></SignUp>
+              </div>
+            )}
+          </Toolbar>
+        </AppBar>
+        <TabPanel value={value} index={0}>
+          <Home></Home>
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <EventsV2></EventsV2>
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          <About></About>
+        </TabPanel>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <AppBar sx={appbar}>
+          <Toolbar>
+            {isMatch ? (
+              <>
+                <DrawerComp></DrawerComp>
+                <Typography>K-Event</Typography>
+              </>
+            ) : (
+              <div style={{ display: "flex", justifyContent: "left" }}>
+                <Typography>K-VENT MANAGER</Typography>
+                <Tabs
+                  style={{ marginLeft: "5vw" }}
+                  textColor="inherit"
+                  value={value}
+                  onChange={handleChange}
+                  indicatorColor="secondary"
+                >
+                  {Pages.map((pages, index) => (
+                    <Tab
+                      key={index}
+                      label={pages}
+                      {...a11yProps({ index })}
+                    ></Tab>
+                  ))}
+                </Tabs>
+
+                {/* SEARCH BAR IMPLEMENTATION */}
+                <Searchbar />
+                <Dashboard jwt={props.jwt}></Dashboard>
+              </div>
+            )}
+          </Toolbar>
+        </AppBar>
+        <TabPanel value={value} index={0}>
+          <Home></Home>
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <EventsV2></EventsV2>
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          <About></About>
+        </TabPanel>
+      </>
+    );
+  }
+};
+export default Header;
