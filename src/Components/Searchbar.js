@@ -1,8 +1,8 @@
 import React from 'react'
 import SearchIcon from '@mui/icons-material/Search'
-import { Box, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, Input, Link, Paper, Typography } from '@mui/material'
+import { Box, Card, CardContent, CardHeader, CardMedia, IconButton, Input, Link, Paper, Typography } from '@mui/material'
 import { useState } from 'react'
-import EventModal from './EventModal'
+import EventModalSearch from './EventModalSearch'
 
 
 const box = {
@@ -36,16 +36,7 @@ const card = {
   backgroundColor: '#fff',
   height: '6vh'
 }
-const cardmedia = {
-  height: '5vh',
-  width: '5vw',
-  margin: '0.5vh 0 0 0.5vw'
-}
-const cardcontent = {
-  display: 'flex',
-  flexDirection: 'row',
-  marginBottom: '0.5rem'
-}
+
 
 const Searchbar = () => {
 
@@ -88,18 +79,17 @@ const Searchbar = () => {
                 <Box sx={box2}>
                 {events.length ? 
                   events.map(item => (
-                  <Link underline='none' href='#'>
-                  <Card sx={card}>
-                    <CardMedia sx={cardmedia} component='img' image={item.image}></CardMedia>
-                    <CardContent sx={cardcontent}>
-                      <Typography variant='body1'><b>{item.name}</b></Typography>
-                      <Typography variant='body2'><i>({item.status})</i></Typography>
-                    </CardContent>
-                    <CardActions>
-                      <EventModal id={item._id}></EventModal>
-                    </CardActions>
-                  </Card>
-                  </Link>
+                  // <Link underline='none' href='#'>
+                  // <Card sx={card}>
+                  //   <CardMedia sx={cardmedia} component='img' image={item.image}></CardMedia>
+                  //   <CardContent sx={cardcontent}>
+                  //     <Typography variant='body1'><b>{item.name}</b></Typography>
+                  //     <Typography variant='body2'><i>({item.status})</i></Typography>
+                  //   </CardContent>
+                  //   <CardActions></CardActions>
+                  // </Card>
+                  // </Link>
+                   <EventModalSearch item={item}></EventModalSearch>
                   )) :
                   (
                     <Card sx={card}>

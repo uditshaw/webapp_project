@@ -11,6 +11,7 @@ import { useState } from "react";
 import { Button } from "@mui/material";
 import MakeAdmin from "./Components/makeAdmin";
 import RemoveAdmin from "./Components/RemoveAdmin";
+import RemoveUser from "./Components/RemoveUser";
 export default function UserTable() {
   const [rows, setRows] = useState([]);
   let data = fetch(`http://localhost:8000/api/v1/userData`, {
@@ -60,7 +61,7 @@ export default function UserTable() {
                       {row.isAdmin === "yes" ? "Admin" : "Student"}
                     </TableCell>
                     <TableCell>
-                      <Button>Remove</Button>
+                      <RemoveUser id={row._id}></RemoveUser>
                     </TableCell>
                     <TableCell>
                       <MakeAdmin id={row._id}></MakeAdmin>

@@ -51,3 +51,14 @@ exports.AddEvent = async (req, res) => {
     res.status(200).json({ message: "hi" });
   } catch (err) {}
 };
+
+exports.removeUser = async (req, res) => {
+  console.log(req.body.id);
+  try {
+    var myquery = { _id: req.body.id };
+    const savedUser = await UserData.deleteOne(myquery);
+    res.status(200).json({ message: "user deleted"});
+  } catch (err) {
+    console.log("Error in removeUser() : "+err);
+  }
+};
