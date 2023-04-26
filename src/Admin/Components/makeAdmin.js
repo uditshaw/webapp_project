@@ -30,6 +30,7 @@ export default function MakeAdmin(props) {
       body: JSON.stringify({ id: props.id }),
     });
     console.log(props.id);
+    handleClose();
   };
 
   return (
@@ -42,7 +43,7 @@ export default function MakeAdmin(props) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography>Are you sure to Delete?</Typography>
+          <Typography>Are you sure to Make Admin?</Typography>
           <Button
             variant="contained"
             style={{
