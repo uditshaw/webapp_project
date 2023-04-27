@@ -31,6 +31,7 @@ exports.getUsers = async (req, res) => {
 exports.getUser = async (req, res) => {
   try {
     const User = await UserData.find({_id:req.body.id});
+    console.log("inside user con"+req.body.id)
     res.status(200).json({
       status: "success",
       data: { User },
@@ -73,17 +74,16 @@ exports.AddEvent = async (req, res) => {
 
   try {
     const User= await UserData.find({ _id: req.body.id })
-    console.log("inside " + User);
-    if(User.events.include(req.body.eventId))
-    throw err;
+    // console.log("inside " + User);
+
     var myquery = { _id: req.body.id };
     var newvalues = { $push: { events: req.body.eventId } };
     const savedEvent = await UserData.updateOne(myquery, newvalues);
 
     console.log("i");
-    res.status(200).json({ message: "hi" });
+    res.status(200).json({data:User});
   } catch (err) {
-    res.status(400).json({message:"Failed"})
+
   }
 };
 
