@@ -6,7 +6,7 @@ const About = () => {
     <div style={{ marginTop: "7vh" }}>
       <CarouselCard></CarouselCard>
       <h2 align="center">
-        <font size="9">About K-Vent</font>
+        <font size="9">About Kiit Event Manager</font>
       </h2>
       <p align="justified">
         <font size="5">
