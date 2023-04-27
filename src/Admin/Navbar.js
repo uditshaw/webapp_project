@@ -36,7 +36,7 @@ export default function Navbar() {
               height: "10vh",
             }}
           >
-            K-Event
+            Kiit Event Manager
           </Typography>
         </Toolbar>
       </AppBar>

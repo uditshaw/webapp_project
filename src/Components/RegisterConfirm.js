@@ -34,7 +34,27 @@ export default function RegisterConfirm(props) {
 
   const handleYes = async () => {
     console.log(props.id)
-    const res = await fetch("http://localhost:8000/api/v1/userData/AddEvent", {
+    const res2= await fetch("http://localhost:8000/api/v1/userData/getUserById",
+    {
+      method:"POST",
+      headers: {
+        "Content-Type": "application/json",
+
+      },
+      credentials: 'include',
+
+      body: JSON.stringify({
+        id: Cookies.get('id')
+      })
+
+    }).then((res) => {
+      return res.json();
+    })
+    .then(async(d) => {
+      console.log(d.data.User[0].events)
+      if(!d.data.User[0].events.includes(props.id))
+      {
+      const res = await fetch("http://localhost:8000/api/v1/userData/AddEvent", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -47,11 +67,6 @@ export default function RegisterConfirm(props) {
         "eventId": props.id
       })
     })
-    if(res.status===400)
-    {window.alert("Already Register");
-    window.location.reload(false)}
-    else
-    {
     const res1 = await fetch("http://localhost:8000/api/v1/events/AddEventToEvents", {
       method: "POST",
       headers: {
@@ -67,7 +82,29 @@ export default function RegisterConfirm(props) {
     })
   window.alert("Register successfull")
 handleClose();
-window.location.reload(false)}
+window.location.reload(false)
+  }
+  else
+  {
+    window.alert("Already Register");
+    window.location.reload(false)
+  }
+    });
+    // const res = await fetch("http://localhost:8000/api/v1/userData/AddEvent", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+
+    //   },
+    //   credentials: 'include',
+
+    //   body: JSON.stringify({
+    //     "id": Cookies.get('id'),
+    //     "eventId": props.id
+    //   })
+    // })
+    
+    
   }
     if (props.status == "Ongoing") {
       return (
