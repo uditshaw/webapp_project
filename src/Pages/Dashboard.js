@@ -24,7 +24,7 @@ export default function Dashboard() {
       <Button
       upperCase
         onClick={handleClick}
-        style={{marginLeft:"25vh",textTransform:"none",color:"white"}}
+        style={{marginLeft:"100vh",textTransform:"none",color:"white"}}
       >
         <pre >Welcome Back  {Cookies.get('name')}</pre>  
         <KeyboardArrowDownIcon style={{marginTop:"5px"}}></KeyboardArrowDownIcon>

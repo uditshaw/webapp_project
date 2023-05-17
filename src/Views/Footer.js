@@ -3,6 +3,9 @@ import React from 'react'
 
 const box = {
   backgroundColor: '#38342b',
+  position: "relative",
+
+  bottom: 0,
   padding:"0px",
   color: '#fff',
   width: '100%',

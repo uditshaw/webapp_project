@@ -21,12 +21,14 @@ import SignUp from "../Pages/SignUp";
 import Searchbar from "../Components/Searchbar";
 import Cookies from "js-cookie";
 import Dashboard from "../Pages/Dashboard";
+import Profile from "../Components/Profile";
 
 const appbar = {
   backgroundColor: "#38342b",
 };
 
 const Pages = ["Home", "Events", "About US"];
+const PagesLog = ["Profile", "Events", "About US"];
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -91,7 +93,7 @@ const Header = (props) => {
                   justifyContent: "space-between",
                 }}
               >
-                <Typography variant="h6">K-VENT MANAGER</Typography>
+                <Typography variant="h6">KIIT EVENT MANAGER</Typography>
                 <Tabs
                   textColor="inherit"
                   value={value}
@@ -135,7 +137,7 @@ const Header = (props) => {
             {isMatch ? (
               <>
                 <DrawerComp></DrawerComp>
-                <Typography>K-Event</Typography>
+                <Typography>Kiit Event Manager</Typography>
               </>
             ) : (
               <div style={{ display: "flex", justifyContent: "left" }}>
@@ -147,7 +149,7 @@ const Header = (props) => {
                   onChange={handleChange}
                   indicatorColor="secondary"
                 >
-                  {Pages.map((pages, index) => (
+                  {PagesLog.map((pages, index) => (
                     <Tab
                       key={index}
                       label={pages}
@@ -164,7 +166,7 @@ const Header = (props) => {
           </Toolbar>
         </AppBar>
         <TabPanel value={value} index={0}>
-          <Home></Home>
+          <Profile></Profile>
         </TabPanel>
         <TabPanel value={value} index={1}>
           <EventsV2></EventsV2>

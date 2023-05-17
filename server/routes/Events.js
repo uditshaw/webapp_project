@@ -26,8 +26,9 @@ const upload = multer({
   storage: imgconfig,
   fileFilter: isImage,
 });
-
+router.route("/getEvents").post(event.getEvents);
 router.route("/add").post(upload.single("photo"), event.AddEvent);
+
 router.route("/delete").post(event.deleteEvent);
 router.route("/").post(event.getEventByFilter);
 router.route("/").get(event.AllEvents);
@@ -36,6 +37,7 @@ router.route("/AddEventToEvents").post(event.AddEventToEvents);
 router.route("/Ongoing").get(event.OngoingEvent);
 router.route("/Edit").post(event.Editvent);
 router.route("/Past").get(event.PastEvent);
+
 router.route("/:id").get(event.getEventById);
 // router.route('/search').get(event.getEventByName)
 // router.route('/search').get(event.getEventByName)
